@@ -1,0 +1,193 @@
+# Copyright (C) 2024 Vlăduț Ilie
+# This file is distributed under the same license as the Tutor LMS Reviews package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Tutor LMS Reviews 0.1.0\n"
+"Report-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/tutor-lms-reviews\n"
+"POT-Creation-Date: 2024-02-02 14:41:59+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
+"X-Generator: grunt-wp-i18n 1.0.3\n"
+
+#: includes/class-main.php:116
+msgid "Reviews"
+msgstr ""
+
+#: includes/class-main.php:148
+#. translators: %1$s: h2 opening tag, %2$s: h2 closing tag.
+msgid "%1$sReviews%2$s"
+msgstr ""
+
+#: includes/class-main.php:154
+msgid "Search review"
+msgstr ""
+
+#: includes/class-reviews.php:92
+msgid "Author"
+msgstr ""
+
+#: includes/class-reviews.php:93
+msgid "Review"
+msgstr ""
+
+#: includes/class-reviews.php:94
+msgid "Rating"
+msgstr ""
+
+#: includes/class-reviews.php:95
+msgid "Course"
+msgstr ""
+
+#: includes/class-reviews.php:96
+msgid "Date"
+msgstr ""
+
+#: includes/class-reviews.php:414
+msgid "Unapprove this review"
+msgstr ""
+
+#: includes/class-reviews.php:415 includes/class-reviews.php:531
+msgid "Unapprove"
+msgstr ""
+
+#: includes/class-reviews.php:421
+msgid "Approve this review"
+msgstr ""
+
+#: includes/class-reviews.php:422 includes/class-reviews.php:535
+msgid "Approve"
+msgstr ""
+
+#: includes/class-reviews.php:430
+msgid "Mark this review as spam"
+msgstr ""
+
+#: includes/class-reviews.php:438
+msgid "Restore this review from the spam"
+msgstr ""
+
+#: includes/class-reviews.php:447
+msgid "Restore this review from the Trash"
+msgstr ""
+
+#: includes/class-reviews.php:448 includes/class-reviews.php:543
+msgid "Restore"
+msgstr ""
+
+#: includes/class-reviews.php:456
+msgid "Delete this review permanently"
+msgstr ""
+
+#: includes/class-reviews.php:457
+msgid "Delete Permanently"
+msgstr ""
+
+#: includes/class-reviews.php:463
+msgid "Move this review to the Trash"
+msgstr ""
+
+#: includes/class-reviews.php:549
+msgid "Delete permanently"
+msgstr ""
+
+#: includes/class-reviews.php:551
+msgid "Move to Trash"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Tutor LMS Reviews"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Add \"Reviews\" submenu in your Tutor LMS installation."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Vlăduț Ilie"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://vladilie.ro"
+msgstr ""
+
+#: includes/class-reviews.php:280
+#. translators: %s: Number of reviews.
+msgctxt "reviews"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-reviews.php:287
+#. translators: %s: Number of reviews.
+msgctxt "reviews"
+msgid "Pending <span class=\"count\">(%s)</span>"
+msgid_plural "Pending <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-reviews.php:294
+#. translators: %s: Number of reviews.
+msgctxt "reviews"
+msgid "Approved <span class=\"count\">(%s)</span>"
+msgid_plural "Approved <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-reviews.php:302
+#. translators: %s: Number of reviews.
+msgctxt "reviews"
+msgid "Spam <span class=\"count\">(%s)</span>"
+msgid_plural "Spam <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-reviews.php:310
+#. translators: %s: Number of reviews.
+msgctxt "reviews"
+msgid "Trash <span class=\"count\">(%s)</span>"
+msgid_plural "Trash <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-reviews.php:432
+#. translators: "Mark as spam" link.
+msgctxt "verb"
+msgid "Spam"
+msgstr ""
+
+#: includes/class-reviews.php:464
+msgctxt "verb"
+msgid "Trash"
+msgstr ""
+
+#: includes/class-reviews.php:439
+msgctxt "review"
+msgid "Not Spam"
+msgstr ""
+
+#: includes/class-reviews.php:539
+msgctxt "review"
+msgid "Mark as spam"
+msgstr ""
+
+#: includes/class-reviews.php:545
+msgctxt "review"
+msgid "Not spam"
+msgstr ""

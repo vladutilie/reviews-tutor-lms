@@ -2,11 +2,11 @@
 /**
  * Main class of the plugin that handles hooks, internationalization, connects all the plugin features, script and styles enqueuing.
  *
- * @package Tutor_Reviews\Includes
+ * @package Tutor_LMS_Reviews\Includes
  * @since 1.0.0
  */
 
-namespace TutorReviews\Includes;
+namespace TutorLmsReviews\Includes;
 
 /**
  * Main class of the plugin that handles hooks, internationalization, connects all the plugin features, script and styles enqueuing.
@@ -18,7 +18,7 @@ class Main {
 	/**
 	 * Reviews submenu admin page.
 	 */
-	const SUBMENU_SLUG = 'tutor-reviews';
+	const SUBMENU_SLUG = 'tutor-lms-reviews';
 
 	/**
 	 * The plugin main root.
@@ -80,7 +80,7 @@ class Main {
 	 * @link https://developer.wordpress.org/reference/functions/plugin_basename
 	 */
 	public function load_text_domain(): void {
-		load_plugin_textdomain( 'tutor-reviews', false, dirname( plugin_basename( __FILE__ ) ) . '/../languages' );
+		load_plugin_textdomain( 'tutor-lms-reviews', false, dirname( plugin_basename( __FILE__ ) ) . '/../languages' );
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Main {
 
 		$bubble = ' <span class="awaiting-mod count-' . esc_attr( $reviews_count ) . '"><span class="pending-count">' . esc_html( $reviews_count ) . '</span></span>';
 
-		add_submenu_page( 'tutor', __( 'Reviews', 'tutor-reviews' ), __( 'Reviews', 'tutor-reviews' ) . $bubble, 'manage_tutor_instructor', self::SUBMENU_SLUG, array( $this, 'review_list' ) );
+		add_submenu_page( 'tutor', __( 'Reviews', 'tutor-lms-reviews' ), __( 'Reviews', 'tutor-lms-reviews' ) . $bubble, 'manage_tutor_instructor', self::SUBMENU_SLUG, array( $this, 'review_list' ) );
 	}
 
 	/**
@@ -145,13 +145,13 @@ class Main {
 		<div class="wrap">
 			<?php
 			// translators: %1$s: h2 opening tag, %2$s: h2 closing tag.
-			printf( esc_html__( '%1$sReviews%2$s', 'tutor-reviews' ), '<h2>', '</h2>' );
+			printf( esc_html__( '%1$sReviews%2$s', 'tutor-lms-reviews' ), '<h2>', '</h2>' );
 			$table->views();
 			?>
 			<form method="post">
 				<?php
 				if ( $table->has_items() ) {
-					$table->search_box( __( 'Search review', 'tutor-reviews' ), 'tutor-reviews' );
+					$table->search_box( __( 'Search review', 'tutor-lms-reviews' ), 'tutor-lms-reviews' );
 				}
 				$table->display();
 				?>
@@ -200,7 +200,7 @@ class Main {
 
 			$update = $wpdb->update( $wpdb->comments, $data, array( 'comment_ID' => $review_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 
-			wp_safe_redirect( admin_url( 'admin.php?page=tutor-reviews' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=' . self::SUBMENU_SLUG ) );
 		} elseif ( isset( $_GET['_wpnonce'] ) && isset( $_GET['r'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'delete-review_' . sanitize_text_field( wp_unslash( $_GET['r'] ) ) ) ) {
 			$action    = ( isset( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : '' );
 			$review_id = ( isset( $_GET['r'] ) ? sanitize_text_field( wp_unslash( $_GET['r'] ) ) : '' );
@@ -215,14 +215,14 @@ class Main {
 			} elseif ( 'delete' === $action ) {
 				$delete = $wpdb->delete( $wpdb->comments, array( 'comment_ID' => $review_id ), array( '%d' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 
-				return wp_safe_redirect( admin_url( 'admin.php?page=tutor-reviews' ) );
+				return wp_safe_redirect( admin_url( 'admin.php?page=' . self::SUBMENU_SLUG ) );
 			} else {
 				return;
 			}
 
 			$update = $wpdb->update( $wpdb->comments, $data, array( 'comment_ID' => $review_id ), array( '%s' ), array( '%d' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 
-			wp_safe_redirect( admin_url( 'admin.php?page=tutor-reviews' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=' . self::SUBMENU_SLUG ) );
 		}
 	}
 }

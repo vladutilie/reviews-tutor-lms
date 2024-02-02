@@ -1,5 +1,5 @@
-# Tutor Reviews #
-**Contributors:** [(this-should-be-a-list-of-wordpress.org-userid's)](https://profiles.wordpress.org/(this-should-be-a-list-of-wordpress.org-userid's)/)  
+# Tutor LMS Reviews #
+**Contributors:** [vladwtz](https://profiles.wordpress.org/vladwtz/)  
 **Donate link:** https://example.com/  
 **Tags:** comments, spam  
 **Requires at least:** 4.5  

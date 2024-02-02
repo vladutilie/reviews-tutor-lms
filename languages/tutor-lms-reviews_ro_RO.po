@@ -1,0 +1,182 @@
+# Copyright (C) 2024 Vlăduț Ilie
+# This file is distributed under the same license as the Tutor Reviews package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Tutor Reviews 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/tutor-reviews\n"
+"POT-Creation-Date: 2024-02-02 12:50+0200\n"
+"PO-Revision-Date: 2024-02-02 12:50+0200\n"
+"Last-Translator: Vlăduț Ilie <hello@vladilie.ro>\n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n==0 || (n!=1 && n%100>=1 && "
+"n%100<=19) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"X-Poedit-Basepath: ..\n"
+"X-Textdomain-Support: yes\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: includes/class-main.php:109
+msgid "Reviews"
+msgstr "Recenzii"
+
+#: includes/class-main.php:133
+#, php-format
+msgid "%1$sReviews%2$s"
+msgstr "%1$sRecenzii%2$s"
+
+#: includes/class-main.php:139
+msgid "Search review"
+msgstr "Caută recenzie"
+
+#: includes/class-reviews.php:41
+msgid "Author"
+msgstr "Autor"
+
+#: includes/class-reviews.php:42
+msgid "Review"
+msgstr "Recenzie"
+
+#: includes/class-reviews.php:43
+msgid "Rating"
+msgstr "Evaluare"
+
+#: includes/class-reviews.php:44
+msgid "Course"
+msgstr "Curs"
+
+#: includes/class-reviews.php:45
+msgid "Date"
+msgstr "Dată"
+
+#: includes/class-reviews.php:195
+#, php-format
+msgctxt "reviews"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] "Toate <span class=\"count\">(%s)</span>"
+msgstr[1] "Toate <span class=\"count\">(%s)</span>"
+msgstr[2] "Toate <span class=\"count\">(%s)</span>"
+
+#: includes/class-reviews.php:202
+#, php-format
+msgctxt "reviews"
+msgid "Pending <span class=\"count\">(%s)</span>"
+msgid_plural "Pending <span class=\"count\">(%s)</span>"
+msgstr[0] "În așteptare <span class=\"count\">( %s)</span>"
+msgstr[1] "În așteptare <span class=\"count\">( %s)</span>"
+msgstr[2] "În așteptare <span class=\"count\">( %s)</span>"
+
+#: includes/class-reviews.php:209
+#, php-format
+msgctxt "reviews"
+msgid "Approved <span class=\"count\">(%s)</span>"
+msgid_plural "Approved <span class=\"count\">(%s)</span>"
+msgstr[0] "Aprobat <span class=\"count\">(%s)</span>"
+msgstr[1] "Aprobate <span class=\"count\">(%s)</span>"
+msgstr[2] "Aprobate <span class=\"count\">(%s)</span>"
+
+#: includes/class-reviews.php:217
+#, php-format
+msgctxt "reviews"
+msgid "Spam <span class=\"count\">(%s)</span>"
+msgid_plural "Spam <span class=\"count\">(%s)</span>"
+msgstr[0] "Spam <span class=\"count\">(%s)</span>"
+msgstr[1] "Spam <span class=\"count\">(%s)</span>"
+msgstr[2] "Spam <span class=\"count\">(%s)</span>"
+
+#: includes/class-reviews.php:225
+#, php-format
+msgctxt "reviews"
+msgid "Trash <span class=\"count\">(%s)</span>"
+msgid_plural "Trash <span class=\"count\">(%s)</span>"
+msgstr[0] "La gunoi <span class=\"count\">(%s)</span>"
+msgstr[1] "La gunoi <span class=\"count\">(%s)</span>"
+msgstr[2] "La gunoi <span class=\"count\">(%s)</span>"
+
+#: includes/class-reviews.php:300 includes/class-reviews.php:325
+#: includes/class-reviews.php:345
+msgid "Unapprove this comment"
+msgstr "Anulează aprobare"
+
+#: includes/class-reviews.php:301 includes/class-reviews.php:326
+#: includes/class-reviews.php:345
+msgid "Unapprove"
+msgstr "Respinge"
+
+#: includes/class-reviews.php:308 includes/class-reviews.php:317
+#: includes/class-reviews.php:347
+msgid "Approve this comment"
+msgstr "Aprobă acest comentariu"
+
+#: includes/class-reviews.php:309 includes/class-reviews.php:318
+#: includes/class-reviews.php:347
+msgid "Approve"
+msgstr "Aprobă"
+
+#: node_modules/grunt-wp-i18n/test/fixtures/basic-theme/exclude/file.php:3
+#: node_modules/grunt-wp-i18n/test/fixtures/plugin-include/plugin-include.php:6
+msgid "Exclude"
+msgstr ""
+
+#: node_modules/grunt-wp-i18n/test/fixtures/plugin-include/include/file.php:2
+#: node_modules/node-wp-i18n/test/fixtures/makepot/nested-theme/include/include.php:2
+msgid "Include"
+msgstr ""
+
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/add-domain.php:2
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:2
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:3
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:4
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-domains.php:2
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-domains.php:3
+msgid "String"
+msgstr ""
+
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:6
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:7
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:8
+msgctxt "a string"
+msgid "String"
+msgstr ""
+
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:9
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:10
+#: node_modules/grunt-wp-i18n/test/fixtures/text-domains/update-all-domains.php:11
+#, php-format
+msgid "1 Star"
+msgid_plural "%s Stars"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: node_modules/grunt-wp-i18n/test/fixtures/translator-comments/translator-comments.php:7
+msgid "A"
+msgstr ""
+
+#: node_modules/grunt-wp-i18n/test/fixtures/translator-comments/translator-comments.php:15
+msgid "B"
+msgstr ""
+
+#: node_modules/node-wp-i18n/test/fixtures/makepot/nested-theme/subdir/index.php:2
+msgid "Index"
+msgstr ""
+
+#~ msgid "Tutor LMS Reviews"
+#~ msgstr "Recenzii Tutor LMS"
+
+#~ msgid "Add \"Reviews\" submenu in your Tutor LMS installation."
+#~ msgstr "Adaugă submeniul „Recenzii” în instalarea ta Tutor LMS."
+
+#~ msgid "Vlăduț Ilie"
+#~ msgstr "Vlăduț Ilie"
+
+#~ msgid "https://vladilie.ro"
+#~ msgstr "https://vladilie.ro"
