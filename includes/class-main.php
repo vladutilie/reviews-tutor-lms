@@ -60,12 +60,49 @@ class Main {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @see is_plugin_inactive
+	 * @link https://developer.wordpress.org/reference/functions/is_plugin_inactive
+	 *
 	 * @see add_action
 	 * @link https://developer.wordpress.org/reference/functions/add_action
 	 */
 	protected function init(): void {
+		/**
+		 * Detect plugin. For frontend only.
+		 */
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+		if ( is_plugin_inactive( 'tutor/tutor.php' ) ) {
+			add_action( 'admin_notices', array( $this, 'notice_required_tutor' ) );
+		} else {
+			add_action( 'tutor_after_courses_menu', array( $this, 'add_reviews_submenu' ) );
+		}
 		add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
-		add_action( 'tutor_after_courses_menu', array( $this, 'add_reviews_submenu' ) );
+	}
+
+	/**
+	 * Admin notice if Tutor LMS not installed.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @see esc_html__
+	 * @link https://developer.wordpress.org/reference/functions/esc_html__
+	 */
+	public function notice_required_tutor() {
+		?>
+		<div class="notice notice-warning is-dismissible">
+			<p>
+				<?php
+				printf(
+					// translators: %1$s: code opening tag, %2$s: code closing tag.
+					esc_html__( 'Please enable the %1$sTutor LMS%2$s plugin for the %1$sTutor LMS Reviews%2$s plugin to work.', 'tutor-lms-reviews' ),
+					'<code>',
+					'</code>'
+				);
+				?>
+			</p>
+		</div>
+		<?php
 	}
 
 	/**
