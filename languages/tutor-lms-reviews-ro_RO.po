@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Tutor Reviews 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/tutor-lms-"
 "reviews\n"
-"POT-Creation-Date: 2024-02-03 15:09:55+00:00\n"
-"PO-Revision-Date: 2024-02-03 18:13+0200\n"
+"POT-Creation-Date: 2024-02-03 16:30:54+00:00\n"
+"PO-Revision-Date: 2024-02-03 18:31+0200\n"
 "Last-Translator: Vlăduț Ilie <hello@vladilie.ro>\n"
 "Language-Team: Vlăduț Ilie <hello@vladilie.ro>\n"
 "Language: ro\n"
@@ -63,7 +63,7 @@ msgstr "Dezaprobă această recenzie"
 
 #: includes/class-reviews.php:415 includes/class-reviews.php:536
 msgid "Unapprove"
-msgstr "Respinge"
+msgstr "Anulează aprobarea"
 
 #: includes/class-reviews.php:421
 msgid "Approve this review"
@@ -135,9 +135,9 @@ msgstr[2] "Toate <span class=\"count\">(%s)</span>"
 msgctxt "reviews"
 msgid "Pending <span class=\"count\">(%s)</span>"
 msgid_plural "Pending <span class=\"count\">(%s)</span>"
-msgstr[0] "În așteptare <span class=\"count\">( %s)</span>"
-msgstr[1] "În așteptare <span class=\"count\">( %s)</span>"
-msgstr[2] "În așteptare <span class=\"count\">( %s)</span>"
+msgstr[0] "În așteptare <span class=\"count\">(%s)</span>"
+msgstr[1] "În așteptare <span class=\"count\">(%s)</span>"
+msgstr[2] "În așteptare <span class=\"count\">(%s)</span>"
 
 #. translators: %s: Number of reviews.
 #: includes/class-reviews.php:294
@@ -177,17 +177,12 @@ msgctxt "verb"
 msgid "Trash"
 msgstr "Aruncă la gunoi"
 
-#: includes/class-reviews.php:439
+#: includes/class-reviews.php:439 includes/class-reviews.php:550
 msgctxt "review"
-msgid "Not Spam"
+msgid "Not spam"
 msgstr "Nu este spam"
 
 #: includes/class-reviews.php:544
 msgctxt "review"
 msgid "Mark as spam"
 msgstr "Marchează ca spam"
-
-#: includes/class-reviews.php:550
-msgctxt "review"
-msgid "Not spam"
-msgstr "Nu este spam"
