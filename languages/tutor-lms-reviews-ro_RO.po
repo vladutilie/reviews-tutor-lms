@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Tutor Reviews 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/tutor-lms-"
 "reviews\n"
-"POT-Creation-Date: 2024-02-03 16:30:54+00:00\n"
-"PO-Revision-Date: 2024-02-03 18:31+0200\n"
+"POT-Creation-Date: 2024-02-03 20:15+0200\n"
+"PO-Revision-Date: 2024-02-03 20:15+0200\n"
 "Last-Translator: Vlăduț Ilie <hello@vladilie.ro>\n"
 "Language-Team: Vlăduț Ilie <hello@vladilie.ro>\n"
 "Language: ro\n"
@@ -19,21 +19,31 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
 "_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
 "esc_html_x:1,2c\n"
-"X-Poedit-Basepath: ..\n"
+"X-Poedit-Basepath: ../includes\n"
 "X-Textdomain-Support: yes\n"
 "X-Generator: Poedit 3.4.2\n"
-"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-0: class-reviews.php\n"
+"X-Poedit-SearchPath-1: class-main.php\n"
 
-#: includes/class-main.php:116
+#: includes/class-main.php:87
+#, php-format
+msgid ""
+"Please enable the %1$sTutor LMS%2$s plugin for the %1$sTutor LMS Reviews%2$s "
+"plugin to work."
+msgstr ""
+"Te rugăm să activezi modulul %1$sTutor LMS%2$s pentru ca modulul %1$sTutor "
+"LMS Reviews%2$s să funcționeze."
+
+#: includes/class-main.php:142
 msgid "Reviews"
 msgstr "Recenzii"
 
-#. translators: %1$s: h2 opening tag, %2$s: h2 closing tag.
-#: includes/class-main.php:148
+#: includes/class-main.php:174
+#, php-format
 msgid "%1$sReviews%2$s"
 msgstr "%1$sRecenzii%2$s"
 
-#: includes/class-main.php:154
+#: includes/class-main.php:180
 msgid "Search review"
 msgstr "Caută recenzie"
 
@@ -57,6 +67,51 @@ msgstr "Curs"
 msgid "Date"
 msgstr "Dată"
 
+#: includes/class-reviews.php:281
+#, php-format
+msgctxt "reviews"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] "Toate <span class=\"count\">(%s)</span>"
+msgstr[1] "Toate <span class=\"count\">(%s)</span>"
+msgstr[2] "Toate <span class=\"count\">(%s)</span>"
+
+#: includes/class-reviews.php:288
+#, php-format
+msgctxt "reviews"
+msgid "Pending <span class=\"count\">(%s)</span>"
+msgid_plural "Pending <span class=\"count\">(%s)</span>"
+msgstr[0] "În așteptare <span class=\"count\">(%s)</span>"
+msgstr[1] "În așteptare <span class=\"count\">(%s)</span>"
+msgstr[2] "În așteptare <span class=\"count\">(%s)</span>"
+
+#: includes/class-reviews.php:295
+#, php-format
+msgctxt "reviews"
+msgid "Approved <span class=\"count\">(%s)</span>"
+msgid_plural "Approved <span class=\"count\">(%s)</span>"
+msgstr[0] "Aprobat <span class=\"count\">(%s)</span>"
+msgstr[1] "Aprobate <span class=\"count\">(%s)</span>"
+msgstr[2] "Aprobate <span class=\"count\">(%s)</span>"
+
+#: includes/class-reviews.php:303
+#, php-format
+msgctxt "reviews"
+msgid "Spam <span class=\"count\">(%s)</span>"
+msgid_plural "Spam <span class=\"count\">(%s)</span>"
+msgstr[0] "Spam <span class=\"count\">(%s)</span>"
+msgstr[1] "Spam <span class=\"count\">(%s)</span>"
+msgstr[2] "Spam <span class=\"count\">(%s)</span>"
+
+#: includes/class-reviews.php:311
+#, php-format
+msgctxt "reviews"
+msgid "Trash <span class=\"count\">(%s)</span>"
+msgid_plural "Trash <span class=\"count\">(%s)</span>"
+msgstr[0] "La gunoi <span class=\"count\">(%s)</span>"
+msgstr[1] "La gunoi <span class=\"count\">(%s)</span>"
+msgstr[2] "La gunoi <span class=\"count\">(%s)</span>"
+
 #: includes/class-reviews.php:414
 msgid "Unapprove this review"
 msgstr "Dezaprobă această recenzie"
@@ -77,9 +132,19 @@ msgstr "Aprobă"
 msgid "Mark this review as spam"
 msgstr "Marchează această recenzie ca spam"
 
+#: includes/class-reviews.php:432
+msgctxt "verb"
+msgid "Spam"
+msgstr "Marchează ca spam"
+
 #: includes/class-reviews.php:438
 msgid "Restore this review from the spam"
 msgstr "Restaurează această recenzie din spam"
+
+#: includes/class-reviews.php:439 includes/class-reviews.php:550
+msgctxt "review"
+msgid "Not spam"
+msgstr "Nu este spam"
 
 #: includes/class-reviews.php:447
 msgid "Restore this review from the Trash"
@@ -101,88 +166,16 @@ msgstr "Șterge definitiv"
 msgid "Move this review to the Trash"
 msgstr "Aruncă această recenzie la gunoi"
 
-#: includes/class-reviews.php:556
-msgid "Move to Trash"
-msgstr "Aruncă la gunoi"
-
-#. Plugin Name of the plugin/theme
-msgid "Tutor LMS Reviews"
-msgstr "Recenzii Tutor LMS"
-
-#. Description of the plugin/theme
-msgid "Add \"Reviews\" submenu in your Tutor LMS installation."
-msgstr "Adaugă submeniul „Recenzii” în instalarea ta Tutor LMS."
-
-#. Author of the plugin/theme
-msgid "Vlăduț Ilie"
-msgstr "Vlăduț Ilie"
-
-#. Author URI of the plugin/theme
-msgid "https://vladilie.ro"
-msgstr "https://vladilie.ro"
-
-#. translators: %s: Number of reviews.
-#: includes/class-reviews.php:280
-msgctxt "reviews"
-msgid "All <span class=\"count\">(%s)</span>"
-msgid_plural "All <span class=\"count\">(%s)</span>"
-msgstr[0] "Toate <span class=\"count\">(%s)</span>"
-msgstr[1] "Toate <span class=\"count\">(%s)</span>"
-msgstr[2] "Toate <span class=\"count\">(%s)</span>"
-
-#. translators: %s: Number of reviews.
-#: includes/class-reviews.php:287
-msgctxt "reviews"
-msgid "Pending <span class=\"count\">(%s)</span>"
-msgid_plural "Pending <span class=\"count\">(%s)</span>"
-msgstr[0] "În așteptare <span class=\"count\">(%s)</span>"
-msgstr[1] "În așteptare <span class=\"count\">(%s)</span>"
-msgstr[2] "În așteptare <span class=\"count\">(%s)</span>"
-
-#. translators: %s: Number of reviews.
-#: includes/class-reviews.php:294
-msgctxt "reviews"
-msgid "Approved <span class=\"count\">(%s)</span>"
-msgid_plural "Approved <span class=\"count\">(%s)</span>"
-msgstr[0] "Aprobat <span class=\"count\">(%s)</span>"
-msgstr[1] "Aprobate <span class=\"count\">(%s)</span>"
-msgstr[2] "Aprobate <span class=\"count\">(%s)</span>"
-
-#. translators: %s: Number of reviews.
-#: includes/class-reviews.php:302
-msgctxt "reviews"
-msgid "Spam <span class=\"count\">(%s)</span>"
-msgid_plural "Spam <span class=\"count\">(%s)</span>"
-msgstr[0] "Spam <span class=\"count\">(%s)</span>"
-msgstr[1] "Spam <span class=\"count\">(%s)</span>"
-msgstr[2] "Spam <span class=\"count\">(%s)</span>"
-
-#. translators: %s: Number of reviews.
-#: includes/class-reviews.php:310
-msgctxt "reviews"
-msgid "Trash <span class=\"count\">(%s)</span>"
-msgid_plural "Trash <span class=\"count\">(%s)</span>"
-msgstr[0] "La gunoi <span class=\"count\">(%s)</span>"
-msgstr[1] "La gunoi <span class=\"count\">(%s)</span>"
-msgstr[2] "La gunoi <span class=\"count\">(%s)</span>"
-
-#. translators: "Mark as spam" link.
-#: includes/class-reviews.php:432
-msgctxt "verb"
-msgid "Spam"
-msgstr "Marchează ca spam"
-
 #: includes/class-reviews.php:464
 msgctxt "verb"
 msgid "Trash"
 msgstr "Aruncă la gunoi"
 
-#: includes/class-reviews.php:439 includes/class-reviews.php:550
-msgctxt "review"
-msgid "Not spam"
-msgstr "Nu este spam"
-
 #: includes/class-reviews.php:544
 msgctxt "review"
 msgid "Mark as spam"
 msgstr "Marchează ca spam"
+
+#: includes/class-reviews.php:556
+msgid "Move to Trash"
+msgstr "Aruncă la gunoi"

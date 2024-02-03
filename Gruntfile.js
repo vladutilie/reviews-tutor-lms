@@ -42,6 +42,9 @@ module.exports = function (grunt) {
 					potHeaders: {
 						poedit: true,
 						"x-poedit-keywordslist": true,
+						"X-Poedit-SearchPath-0": "tutor-lms-reviews.php\n",
+						"X-Poedit-SearchPath-1": "includes/class-reviews.php\n",
+						"X-Poedit-SearchPath-2": "includes/class-main.php\n",
 					},
 					type: "wp-plugin",
 					updateTimestamp: true,
