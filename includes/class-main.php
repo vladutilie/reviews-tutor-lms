@@ -64,7 +64,7 @@ class Main {
 	 * @link https://developer.wordpress.org/reference/functions/add_action
 	 */
 	protected function init(): void {
-		add_action( 'init', array( $this, 'load_text_domain' ) );
+		add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
 		add_action( 'tutor_after_courses_menu', array( $this, 'add_reviews_submenu' ) );
 	}
 
