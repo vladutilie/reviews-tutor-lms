@@ -6,7 +6,7 @@
  * Author URI:        https://vladilie.ro
  * Text Domain:       tutor-lms-reviews
  * Domain Path:       /languages
- * Version:           0.1.0
+ * Version:           1.0.0
  * Requires at least: 4.6
  * Requires PHP:      7.4
  *
