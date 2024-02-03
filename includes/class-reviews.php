@@ -53,7 +53,7 @@ class Reviews extends \WP_List_Table {
 	 */
 	public function prepare_items() {
 		$this->current_review_status_view = isset( $_GET['review_status'] ) ? sanitize_text_field( wp_unslash( $_GET['review_status'] ) ) : 'all'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
+		$this->process_bulk_action();
 		$reviews = $this->get_reviews();
 
 		$columns               = $this->get_columns();
@@ -260,7 +260,7 @@ class Reviews extends \WP_List_Table {
 		$link = admin_url( 'admin.php?page=' . Main::SUBMENU_SLUG );
 
 		$status_links = array();
-		$review_count = $wpdb->get_results(
+		$review_count = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 			"SELECT comment_approved as `status`, COUNT(*) AS total
 			FROM $wpdb->comments
 			WHERE comment_type='tutor_course_rating'
@@ -436,7 +436,7 @@ class Reviews extends \WP_List_Table {
 				'<a href="%s" class="vim-z vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$unspam_url,
 				esc_attr__( 'Restore this review from the spam', 'tutor-lms-reviews' ),
-				_x( 'Not Spam', 'review', 'tutor-lms-reviews' )
+				_x( 'Not spam', 'review', 'tutor-lms-reviews' )
 			);
 		}
 
@@ -454,7 +454,7 @@ class Reviews extends \WP_List_Table {
 				'<a href="%s" class="delete vim-d vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$delete_url,
 				esc_attr__( 'Delete this review permanently', 'tutor-lms-reviews' ),
-				__( 'Delete Permanently', 'tutor-lms-reviews' )
+				__( 'Delete permanently', 'tutor-lms-reviews' )
 			);
 		} else {
 			$actions['trash'] = sprintf(
@@ -516,6 +516,9 @@ class Reviews extends \WP_List_Table {
 	 * @return array
 	 * @since 1.0.0
 	 *
+	 * @see wp_create_nonce
+	 * @link https://developer.wordpress.org/reference/functions/wp_create_nonce
+	 *
 	 * @see __
 	 * @link https://developer.wordpress.org/reference/functions/__
 	 *
@@ -524,6 +527,8 @@ class Reviews extends \WP_List_Table {
 	 */
 	public function get_bulk_actions(): array {
 		$review_status = $this->current_review_status_view;
+
+		$bulk_nonce = wp_create_nonce( 'bulk-reviews' );
 
 		$actions = array();
 
@@ -552,5 +557,60 @@ class Reviews extends \WP_List_Table {
 		}
 
 		return $actions;
+	}
+
+	/**
+	 * Bulk actions processing.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @see absint
+	 * @link https://developer.wordpress.org/reference/functions/absint
+	 *
+	 * @see check_admin_referer
+	 * @link https://developer.wordpress.org/reference/functions/check_admin_referer
+	 *
+	 * @global object $wpdb WordPress database abstraction object.
+	 */
+	public function process_bulk_action() : void {
+		$current_action = $this->current_action();
+		if ( $current_action ) {
+			check_admin_referer( 'bulk-reviews' );
+
+			global $wpdb;
+
+			$review_ids   = isset( $_POST['element'] ) ? array_map( 'absint', $_POST['element'] ) : array();
+			$placeholders = implode( ', ', array_fill( 0, count( $review_ids ), '%d' ) );
+
+			if ( 'delete' === $current_action ) {
+				$delete = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+					$wpdb->prepare(
+						"DELETE FROM $wpdb->comments
+						WHERE comment_type='tutor_course_rating' AND comment_approved = 'trash' AND comment_ID IN ($placeholders)", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+						...$review_ids
+					)
+				);
+			} else {
+				if ( in_array( $current_action, array( 'unapprove', 'unspam', 'untrash' ), true ) ) {
+					$new_status = 'hold';
+				} elseif ( 'approve' === $current_action ) {
+					$new_status = 'approved';
+				} elseif ( 'spam' === $current_action ) {
+					$new_status = 'spam';
+				} elseif ( 'trash' === $current_action ) {
+					$new_status = 'trash';
+				}
+
+				$update = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+					$wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+						"UPDATE $wpdb->comments
+						SET comment_approved = %s
+						WHERE comment_type='tutor_course_rating' AND comment_ID IN ($placeholders)", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+						$new_status,
+						...$review_ids
+					)
+				);
+			}
+		}
 	}
 }
