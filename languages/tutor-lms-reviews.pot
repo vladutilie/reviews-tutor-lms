@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Tutor LMS Reviews 0.1.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/tutor-lms-reviews\n"
-"POT-Creation-Date: 2024-02-02 14:41:59+00:00\n"
+"POT-Creation-Date: 2024-02-03 15:09:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -62,7 +62,7 @@ msgstr ""
 msgid "Unapprove this review"
 msgstr ""
 
-#: includes/class-reviews.php:415 includes/class-reviews.php:531
+#: includes/class-reviews.php:415 includes/class-reviews.php:536
 msgid "Unapprove"
 msgstr ""
 
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Approve this review"
 msgstr ""
 
-#: includes/class-reviews.php:422 includes/class-reviews.php:535
+#: includes/class-reviews.php:422 includes/class-reviews.php:540
 msgid "Approve"
 msgstr ""
 
@@ -86,7 +86,7 @@ msgstr ""
 msgid "Restore this review from the Trash"
 msgstr ""
 
-#: includes/class-reviews.php:448 includes/class-reviews.php:543
+#: includes/class-reviews.php:448 includes/class-reviews.php:548
 msgid "Restore"
 msgstr ""
 
@@ -94,19 +94,15 @@ msgstr ""
 msgid "Delete this review permanently"
 msgstr ""
 
-#: includes/class-reviews.php:457
-msgid "Delete Permanently"
+#: includes/class-reviews.php:457 includes/class-reviews.php:554
+msgid "Delete permanently"
 msgstr ""
 
 #: includes/class-reviews.php:463
 msgid "Move this review to the Trash"
 msgstr ""
 
-#: includes/class-reviews.php:549
-msgid "Delete permanently"
-msgstr ""
-
-#: includes/class-reviews.php:551
+#: includes/class-reviews.php:556
 msgid "Move to Trash"
 msgstr ""
 
@@ -182,12 +178,12 @@ msgctxt "review"
 msgid "Not Spam"
 msgstr ""
 
-#: includes/class-reviews.php:539
+#: includes/class-reviews.php:544
 msgctxt "review"
 msgid "Mark as spam"
 msgstr ""
 
-#: includes/class-reviews.php:545
+#: includes/class-reviews.php:550
 msgctxt "review"
 msgid "Not spam"
 msgstr ""
