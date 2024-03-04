@@ -192,7 +192,7 @@ class Main {
 				}
 				$table->display();
 				?>
-		</form>
+			</form>
 		</div>
 		<?php
 	}

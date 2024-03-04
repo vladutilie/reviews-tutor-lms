@@ -148,16 +148,20 @@ class Reviews extends \WP_List_Table {
 			$sql .= $wpdb->prepare( ' AND c.comment_approved = %s', $this->current_review_status_view );
 		}
 
-		$order    = ( isset( $_GET['order'] ) ) ? sanitize_text_field( wp_unslash( $_GET['order'] ) ) : 'DESC'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$order_by = ( isset( $_GET['orderby'] ) ) ? sanitize_text_field( wp_unslash( $_GET['orderby'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$order_qry = ( isset( $_GET['order'] ) ) ? sanitize_text_field( wp_unslash( $_GET['order'] ) ) : 'DESC'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$order_by  = ( isset( $_GET['orderby'] ) ) ? sanitize_text_field( wp_unslash( $_GET['orderby'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		if ( ! empty( $order_by ) ) {
+			$order = 'DESC';
+			if ( 'ASC' === strtoupper( $order_qry ) ) {
+				$order = 'ASC';
+			}
 			switch ( $order_by ) {
 				case 'author':
-					$sql .= ' ORDER BY c.user_id ' . esc_sql( $order );
+					$sql .= ' ORDER BY c.user_id ' . $order;
 					break;
 				case 'rating':
-					$sql .= ' ORDER BY rating ' . esc_sql( $order );
+					$sql .= ' ORDER BY rating ' . $order;
 					break;
 				default:
 					$sql .= ' ORDER BY c.comment_date_gmt DESC';
