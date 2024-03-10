@@ -1,21 +1,21 @@
 <?php
 /**
- * Plugin Name:       Tutor LMS Reviews
+ * Plugin Name:       Reviews for Tutor LMS
  * Description:       Add "Reviews" submenu in your Tutor LMS installation.
  * Author:            Vlăduț Ilie
  * Author URI:        https://vladilie.ro
  * License:           GPLv2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       tutor-lms-reviews
+ * Text Domain:       reviews-tutor-lms
  * Domain Path:       /languages
  * Version:           1.0.0
  * Requires at least: 4.6
  * Requires PHP:      7.4
  *
- * @package           Tutor_LMS_Reviews
+ * @package           Reviews_Tutor_LMS
  */
 
-use TutorLmsReviews\Includes\Main;
+use ReviewsTutorLms\Includes\Main;
 
 defined( 'ABSPATH' ) || exit;
 
