@@ -2,11 +2,11 @@
 /**
  * Main class of the plugin that handles hooks, internationalization, connects all the plugin features, script and styles enqueuing.
  *
- * @package Tutor_LMS_Reviews\Includes
+ * @package Reviews_Tutor_LMS\Includes
  * @since 1.0.0
  */
 
-namespace TutorLmsReviews\Includes;
+namespace ReviewsTutorLms\Includes;
 
 /**
  * Main class of the plugin that handles hooks, internationalization, connects all the plugin features, script and styles enqueuing.
@@ -95,7 +95,7 @@ class Main {
 				<?php
 				printf(
 					// translators: %1$s: code opening tag, %2$s: code closing tag.
-					esc_html__( 'Please enable the %1$sTutor LMS%2$s plugin for the %1$sTutor LMS Reviews%2$s plugin to work.', 'tutor-lms-reviews' ),
+					esc_html__( 'Please enable the %1$sTutor LMS%2$s plugin for the %1$sReviews for Tutor LMS%2$s plugin to work.', 'reviews-tutor-lms' ),
 					'<code>',
 					'</code>'
 				);
@@ -117,7 +117,7 @@ class Main {
 	 * @link https://developer.wordpress.org/reference/functions/plugin_basename
 	 */
 	public function load_text_domain(): void {
-		load_plugin_textdomain( 'tutor-lms-reviews', false, dirname( plugin_basename( __FILE__ ) ) . '/../languages' );
+		load_plugin_textdomain( 'reviews-tutor-lms', false, dirname( plugin_basename( __FILE__ ) ) . '/../languages' );
 	}
 
 	/**
@@ -150,7 +150,7 @@ class Main {
 
 		$bubble = ' <span class="awaiting-mod count-' . esc_attr( $reviews_count ) . '"><span class="pending-count">' . esc_html( $reviews_count ) . '</span></span>';
 
-		add_submenu_page( 'tutor', __( 'Reviews', 'tutor-lms-reviews' ), __( 'Reviews', 'tutor-lms-reviews' ) . $bubble, 'manage_tutor_instructor', self::SUBMENU_SLUG, array( $this, 'review_list' ) );
+		add_submenu_page( 'tutor', __( 'Reviews', 'reviews-tutor-lms' ), __( 'Reviews', 'reviews-tutor-lms' ) . $bubble, 'manage_tutor_instructor', self::SUBMENU_SLUG, array( $this, 'review_list' ) );
 	}
 
 	/**
@@ -182,13 +182,13 @@ class Main {
 		<div class="wrap">
 			<?php
 			// translators: %1$s: h2 opening tag, %2$s: h2 closing tag.
-			printf( esc_html__( '%1$sReviews%2$s', 'tutor-lms-reviews' ), '<h2>', '</h2>' );
+			printf( esc_html__( '%1$sReviews%2$s', 'reviews-tutor-lms' ), '<h2>', '</h2>' );
 			$table->views();
 			?>
 			<form method="post">
 				<?php
 				if ( $table->has_items() ) {
-					$table->search_box( __( 'Search review', 'tutor-lms-reviews' ), 'tutor-lms-reviews' );
+					$table->search_box( __( 'Search review', 'reviews-tutor-lms' ), 'tutor-lms-reviews' );
 				}
 				$table->display();
 				?>

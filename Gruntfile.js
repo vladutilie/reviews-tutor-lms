@@ -7,7 +7,7 @@ module.exports = function (grunt) {
 
 		addtextdomain: {
 			options: {
-				textdomain: "tutor-lms-reviews",
+				textdomain: "reviews-tutor-lms",
 			},
 			update_all_domains: {
 				options: {
@@ -37,12 +37,12 @@ module.exports = function (grunt) {
 				options: {
 					domainPath: "/languages",
 					exclude: [".git/*", "bin/*", "node_modules/*", "tests/*"],
-					mainFile: "tutor-lms-reviews.php",
-					potFilename: "tutor-lms-reviews.pot",
+					mainFile: "reviews-tutor-lms.php",
+					potFilename: "reviews-tutor-lms.pot",
 					potHeaders: {
 						poedit: true,
 						"x-poedit-keywordslist": true,
-						"X-Poedit-SearchPath-0": "tutor-lms-reviews.php\n",
+						"X-Poedit-SearchPath-0": "reviews-tutor-lms.php\n",
 						"X-Poedit-SearchPath-1": "includes/class-reviews.php\n",
 						"X-Poedit-SearchPath-2": "includes/class-main.php\n",
 					},

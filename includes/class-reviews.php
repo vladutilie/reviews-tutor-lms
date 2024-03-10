@@ -2,11 +2,11 @@
 /**
  * Reviews class for rendering the table.
  *
- * @package Tutor_LMS_Reviews\Includes
+ * @package Reviews_Tutor_LMS\Includes
  * @since 1.0.0
  */
 
-namespace TutorLmsReviews\Includes;
+namespace ReviewsTutorLms\Includes;
 
 /**
  * Reviews class to render the table of the reviews.
@@ -89,11 +89,11 @@ class Reviews extends \WP_List_Table {
 	public function get_columns() {
 		return array(
 			'cb'     => '<input type="checkbox" />',
-			'author' => __( 'Author', 'tutor-lms-reviews' ),
-			'review' => __( 'Review', 'tutor-lms-reviews' ),
-			'rating' => __( 'Rating', 'tutor-lms-reviews' ),
-			'course' => __( 'Course', 'tutor-lms-reviews' ),
-			'date'   => __( 'Date', 'tutor-lms-reviews' ),
+			'author' => __( 'Author', 'reviews-tutor-lms' ),
+			'review' => __( 'Review', 'reviews-tutor-lms' ),
+			'rating' => __( 'Rating', 'reviews-tutor-lms' ),
+			'course' => __( 'Course', 'reviews-tutor-lms' ),
+			'date'   => __( 'Date', 'reviews-tutor-lms' ),
 		);
 	}
 
@@ -285,21 +285,21 @@ class Reviews extends \WP_List_Table {
 				'All <span class="count">(%s)</span>',
 				'All <span class="count">(%s)</span>',
 				'reviews',
-				'tutor-lms-reviews'
+				'reviews-tutor-lms'
 			),
 			// translators: %s: Number of reviews.
 			'hold'     => _nx_noop(
 				'Pending <span class="count">(%s)</span>',
 				'Pending <span class="count">(%s)</span>',
 				'reviews',
-				'tutor-lms-reviews'
+				'reviews-tutor-lms'
 			),
 			// translators: %s: Number of reviews.
 			'approved' => _nx_noop(
 				'Approved <span class="count">(%s)</span>',
 				'Approved <span class="count">(%s)</span>',
 				'reviews',
-				'tutor-lms-reviews'
+				'reviews-tutor-lms'
 			),
 
 			// translators: %s: Number of reviews.
@@ -307,7 +307,7 @@ class Reviews extends \WP_List_Table {
 				'Spam <span class="count">(%s)</span>',
 				'Spam <span class="count">(%s)</span>',
 				'reviews',
-				'tutor-lms-reviews'
+				'reviews-tutor-lms'
 			),
 
 			// translators: %s: Number of reviews.
@@ -315,7 +315,7 @@ class Reviews extends \WP_List_Table {
 				'Trash <span class="count">(%s)</span>',
 				'Trash <span class="count">(%s)</span>',
 				'reviews',
-				'tutor-lms-reviews'
+				'reviews-tutor-lms'
 			),
 		);
 
@@ -415,15 +415,15 @@ class Reviews extends \WP_List_Table {
 			$actions['unapprove'] = sprintf(
 				'<a href="%s" class="vim-u vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$unapprove_url,
-				esc_attr__( 'Unapprove this review', 'tutor-lms-reviews' ),
-				__( 'Unapprove', 'tutor-lms-reviews' )
+				esc_attr__( 'Unapprove this review', 'reviews-tutor-lms' ),
+				__( 'Unapprove', 'reviews-tutor-lms' )
 			);
 		} elseif ( 'hold' === $item['status'] ) {
 			$actions['approve'] = sprintf(
 				'<a href="%s" class="vim-a vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$approve_url,
-				esc_attr__( 'Approve this review', 'tutor-lms-reviews' ),
-				__( 'Approve', 'tutor-lms-reviews' )
+				esc_attr__( 'Approve this review', 'reviews-tutor-lms' ),
+				__( 'Approve', 'reviews-tutor-lms' )
 			);
 		}
 
@@ -431,16 +431,16 @@ class Reviews extends \WP_List_Table {
 			$actions['spam'] = sprintf(
 				'<a href="%s" class="vim-s vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$spam_url,
-				esc_attr__( 'Mark this review as spam', 'tutor-lms-reviews' ),
+				esc_attr__( 'Mark this review as spam', 'reviews-tutor-lms' ),
 				/* translators: "Mark as spam" link. */
-				_x( 'Spam', 'verb', 'tutor-lms-reviews' )
+				_x( 'Spam', 'verb', 'reviews-tutor-lms' )
 			);
 		} elseif ( 'spam' === $item['status'] ) {
 			$actions['unspam'] = sprintf(
 				'<a href="%s" class="vim-z vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$unspam_url,
-				esc_attr__( 'Restore this review from the spam', 'tutor-lms-reviews' ),
-				_x( 'Not spam', 'review', 'tutor-lms-reviews' )
+				esc_attr__( 'Restore this review from the spam', 'reviews-tutor-lms' ),
+				_x( 'Not spam', 'review', 'reviews-tutor-lms' )
 			);
 		}
 
@@ -448,8 +448,8 @@ class Reviews extends \WP_List_Table {
 			$actions['untrash'] = sprintf(
 				'<a href="%s" class="vim-z vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$untrash_url,
-				esc_attr__( 'Restore this review from the Trash', 'tutor-lms-reviews' ),
-				__( 'Restore', 'tutor-lms-reviews' )
+				esc_attr__( 'Restore this review from the Trash', 'reviews-tutor-lms' ),
+				__( 'Restore', 'reviews-tutor-lms' )
 			);
 		}
 
@@ -457,15 +457,15 @@ class Reviews extends \WP_List_Table {
 			$actions['delete'] = sprintf(
 				'<a href="%s" class="delete vim-d vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$delete_url,
-				esc_attr__( 'Delete this review permanently', 'tutor-lms-reviews' ),
-				__( 'Delete permanently', 'tutor-lms-reviews' )
+				esc_attr__( 'Delete this review permanently', 'reviews-tutor-lms' ),
+				__( 'Delete permanently', 'reviews-tutor-lms' )
 			);
 		} else {
 			$actions['trash'] = sprintf(
 				'<a href="%s" class="delete vim-d vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$trash_url,
-				esc_attr__( 'Move this review to the Trash', 'tutor-lms-reviews' ),
-				_x( 'Trash', 'verb', 'tutor-lms-reviews' )
+				esc_attr__( 'Move this review to the Trash', 'reviews-tutor-lms' ),
+				_x( 'Trash', 'verb', 'reviews-tutor-lms' )
 			);
 		}
 
@@ -537,27 +537,27 @@ class Reviews extends \WP_List_Table {
 		$actions = array();
 
 		if ( in_array( $review_status, array( 'all', 'approved' ), true ) ) {
-			$actions['unapprove'] = __( 'Unapprove', 'tutor-lms-reviews' );
+			$actions['unapprove'] = __( 'Unapprove', 'reviews-tutor-lms' );
 		}
 
 		if ( in_array( $review_status, array( 'all', 'hold' ), true ) ) {
-			$actions['approve'] = __( 'Approve', 'tutor-lms-reviews' );
+			$actions['approve'] = __( 'Approve', 'reviews-tutor-lms' );
 		}
 
 		if ( in_array( $review_status, array( 'all', 'hold', 'approved', 'trash' ), true ) ) {
-			$actions['spam'] = _x( 'Mark as spam', 'review', 'tutor-lms-reviews' );
+			$actions['spam'] = _x( 'Mark as spam', 'review', 'reviews-tutor-lms' );
 		}
 
 		if ( 'trash' === $review_status ) {
-			$actions['untrash'] = __( 'Restore', 'tutor-lms-reviews' );
+			$actions['untrash'] = __( 'Restore', 'reviews-tutor-lms' );
 		} elseif ( 'spam' === $review_status ) {
-			$actions['unspam'] = _x( 'Not spam', 'review', 'tutor-lms-reviews' );
+			$actions['unspam'] = _x( 'Not spam', 'review', 'reviews-tutor-lms' );
 		}
 
 		if ( in_array( $review_status, array( 'trash', 'spam' ), true ) || ! EMPTY_TRASH_DAYS ) {
-			$actions['delete'] = __( 'Delete permanently', 'tutor-lms-reviews' );
+			$actions['delete'] = __( 'Delete permanently', 'reviews-tutor-lms' );
 		} else {
-			$actions['trash'] = __( 'Move to Trash', 'tutor-lms-reviews' );
+			$actions['trash'] = __( 'Move to Trash', 'reviews-tutor-lms' );
 		}
 
 		return $actions;
