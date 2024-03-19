@@ -1,11 +1,11 @@
-# Copyright (C) 2024 Vlăduț Ilie
+# Copyright (C) 2024 Vlad Ilie
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
 "Project-Id-Version: Reviews for Tutor LMS 1.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/reviews-tutor-lms\n"
-"POT-Creation-Date: 2024-03-19 09:00:53+00:00\n"
+"POT-Creation-Date: 2024-03-19 11:49:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -124,7 +124,7 @@ msgid "Add \"Reviews\" submenu in your Tutor LMS installation."
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "Vlăduț Ilie"
+msgid "Vlad Ilie"
 msgstr ""
 
 #. Author URI of the plugin/theme
