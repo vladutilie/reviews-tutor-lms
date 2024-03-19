@@ -18,7 +18,7 @@ class Main {
 	/**
 	 * Reviews submenu admin page.
 	 */
-	const SUBMENU_SLUG = 'tutor-lms-reviews';
+	const SUBMENU_SLUG = 'reviews-tutor-lms';
 
 	/**
 	 * The plugin main root.
@@ -188,7 +188,7 @@ class Main {
 			<form method="post">
 				<?php
 				if ( $table->has_items() ) {
-					$table->search_box( __( 'Search review', 'reviews-tutor-lms' ), 'tutor-lms-reviews' );
+					$table->search_box( __( 'Search review', 'reviews-tutor-lms' ), 'reviews-tutor-lms' );
 				}
 				$table->display();
 				?>
