@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Reviews for Tutor LMS
  * Description:       Add "Reviews" submenu in your Tutor LMS installation.
- * Author:            Vlăduț Ilie
+ * Author:            Vlad Ilie
  * Author URI:        https://vladilie.ro
  * License:           GPLv2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
