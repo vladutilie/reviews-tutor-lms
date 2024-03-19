@@ -9,11 +9,11 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-`Reviews for Tutor LMS ` is an addon for `Tutor LMS` that allow you to manage course reviews.
+The `Reviews for Tutor LMS` plugin is an addon for `Tutor LMS` that allows you to manage course reviews.
 
 == Description ==
 
-The Reviews for Tutor LMS plugin provides additional functionality for managing reviews received on online courses. It allows you to approve, disapprove, mark as spam, or delete reviews, both individually and in bulk.
+The Reviews for Tutor LMS plugin provides additional functionality for managing reviews received on online courses. It allows you to approve, disapprove, mark as spam, or delete reviews individually and in bulk.
 
 == Installation ==
 
@@ -22,6 +22,12 @@ The Reviews for Tutor LMS plugin provides additional functionality for managing 
 3. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Frequently Asked Questions ==
+
+= Why does this plugin exist? =
+I use and appreciate the Tutor LMS module, but decent functionality should have included review management in the free version. Anyone who needs Tutor LMS and course reviews can use this module that implements their management simply and affordably.
+
+= How can I contribute to this plugin? =
+The plugin is hosted on [GitHub](https://github.com/vladutilie/reviews-tutor-lms), where it is developed and maintained.
 
 == Screenshots ==
 
