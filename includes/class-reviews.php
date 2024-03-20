@@ -197,9 +197,13 @@ class Reviews extends \WP_List_Table {
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
 			case 'author':
-				$user_profile_url = admin_url( 'user-edit.php?user_id=' . $item['user_id'] . '&wp_http_referer=admin.php?page=' . Main::SUBMENU_SLUG );
+				if ( $item['user_id'] ) {
+					$user_profile_url = admin_url( 'user-edit.php?user_id=' . $item['user_id'] . '&wp_http_referer=admin.php?page=' . Main::SUBMENU_SLUG );
 
-				return sprintf( '%1$s%2$s%3$s', "<a href='$user_profile_url'>", $item['author'], '</a>' );
+					return sprintf( '%1$s%2$s%3$s', "<a href='$user_profile_url'>", esc_html( $item['author'] ), '</a>' );
+				}
+
+				return esc_html( $item['author'] );
 			case 'review':
 				return $item['review'];
 			case 'rating':
