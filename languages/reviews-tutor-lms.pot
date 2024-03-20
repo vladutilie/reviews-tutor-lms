@@ -2,10 +2,10 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Reviews for Tutor LMS 1.0.0\n"
+"Project-Id-Version: Reviews for Tutor LMS 1.0.1\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/reviews-tutor-lms\n"
-"POT-Creation-Date: 2024-03-20 06:42:09+00:00\n"
+"POT-Creation-Date: 2024-03-20 06:50:58+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -120,7 +120,9 @@ msgid "Reviews for Tutor LMS"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "Add \"Reviews\" submenu in your Tutor LMS installation."
+msgid ""
+"This plugin enables the course reviews for Tutor LMS installation and "
+"allows you to manage them."
 msgstr ""
 
 #. Author of the plugin/theme
