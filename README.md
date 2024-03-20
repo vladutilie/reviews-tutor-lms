@@ -2,10 +2,10 @@
 **Contributors:** [vladwtz](https://profiles.wordpress.org/vladwtz/)  
 **Donate link:** https://paypal.me/vladutilie  
 **Tags:** reviews, tutor lms, reviews addon  
-**Requires at least:** 4.5  
+**Requires at least:** 6.4  
 **Tested up to:** 6.4.3  
 **Requires PHP:** 7.4  
-**Stable tag:** 1.0.0  
+**Stable tag:** 1.0.1  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -34,6 +34,9 @@ The plugin is hosted on [GitHub](https://github.com/vladutilie/reviews-tutor-lms
 1. Reviews list table
 
 ## Changelog ##
+
+### 1.0.1 ###
+* Fix: Displays the reviewer's username, without a URL to their profile, when they do not have an account on the site.
 
 ### 1.0 ###
 * Initial release.
