@@ -9,8 +9,11 @@
     "i18n": "grunt i18n"
   },
   "devDependencies": {
-    "grunt": "~1.6.1",
-    "grunt-wp-i18n": "~1.0.3",
-    "grunt-wp-readme-to-markdown": "~2.1.0"
+    "grunt": "^1.6.3",
+    "grunt-wp-i18n": "^1.0.4",
+    "grunt-wp-readme-to-markdown": "^2.1.0"
+  },
+  "overrides": {
+    "lodash": "^4.18.1"
   }
 }

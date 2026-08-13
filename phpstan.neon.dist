@@ -1,0 +1,11 @@
+parameters:
+	level: 5
+	paths:
+		- includes
+		- reviews-tutor-lms.php
+	excludePaths:
+		analyseAndScan:
+			- bin
+			- tests
+			- vendor
+			- node_modules

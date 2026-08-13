@@ -19,6 +19,7 @@ module.exports = function (grunt) {
 					"!.git/**/*",
 					"!bin/**/*",
 					"!node_modules/**/*",
+					"!vendor/**/*",
 					"!tests/**/*",
 				],
 			},
@@ -36,7 +37,13 @@ module.exports = function (grunt) {
 			target: {
 				options: {
 					domainPath: "/languages",
-					exclude: [".git/*", "bin/*", "node_modules/*", "tests/*"],
+					exclude: [
+						".git/*",
+						"bin/*",
+						"node_modules/*",
+						"vendor/*",
+						"tests/*",
+					],
 					mainFile: "reviews-tutor-lms.php",
 					potFilename: "reviews-tutor-lms.pot",
 					potHeaders: {

@@ -8,7 +8,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       reviews-tutor-lms
  * Domain Path:       /languages
- * Version:           1.0.2
+ * Version:           1.0.3
  * Requires at least: 6.4
  * Requires PHP:      7.4
  * Requires Plugins:  tutor
@@ -20,11 +20,9 @@ use ReviewsTutorLms\Includes\Main;
 
 defined( 'ABSPATH' ) || exit;
 
-$plugin_root = plugin_dir_path( __FILE__ );
-
 /**
  * Require the main class of the plugin.
  */
-require_once $plugin_root . '/includes/class-main.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-main.php';
 
-new Main( $plugin_root );
+new Main( plugin_dir_path( __FILE__ ) );
