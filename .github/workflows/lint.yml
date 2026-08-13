@@ -1,0 +1,36 @@
+name: Lint & analyse
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  lint:
+    name: Lint & analyse
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v4
+
+      # Warnings are reported but do not fail the build; only errors do.
+      - name: PHPCS
+        run: composer lint -- --runtime-set ignore_warnings_on_exit 1
+
+      - name: PHPStan
+        run: composer analyse
