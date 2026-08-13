@@ -106,7 +106,11 @@ class Test_Reviews extends WP_UnitTestCase {
 	 */
 	protected function invoke( string $name, ...$args ) {
 		$method = new ReflectionMethod( Reviews::class, $name );
-		$method->setAccessible( true );
+
+		// Redundant since PHP 8.1 and deprecated in 8.5, but still required on 7.4.
+		if ( PHP_VERSION_ID < 80100 ) {
+			$method->setAccessible( true );
+		}
 
 		return $method->invokeArgs( $this->reviews_table, $args );
 	}
@@ -168,7 +172,7 @@ class Test_Reviews extends WP_UnitTestCase {
 
 		$views = $this->reviews_table->get_views();
 
-		$this->assertTrue( str_contains( $views['all'], 'current' ) );
+		$this->assertStringContainsString( 'current', $views['all'] );
 	}
 
 	/**

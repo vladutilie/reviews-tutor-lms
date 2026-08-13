@@ -77,7 +77,11 @@ class Test_Main extends WP_UnitTestCase {
 	 */
 	protected function invoke( string $name ) {
 		$method = new ReflectionMethod( Main::class, $name );
-		$method->setAccessible( true );
+
+		// Redundant since PHP 8.1 and deprecated in 8.5, but still required on 7.4.
+		if ( PHP_VERSION_ID < 80100 ) {
+			$method->setAccessible( true );
+		}
 
 		return $method->invoke( $this->main );
 	}

@@ -30,6 +30,9 @@
     ]
   },
   "config": {
+    "platform": {
+      "php": "7.4.33"
+    },
     "allow-plugins": {
       "phpstan/extension-installer": true,
       "dealerdirect/phpcodesniffer-composer-installer": true

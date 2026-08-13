@@ -47,7 +47,7 @@ This is a security release. Updating is recommended for all users.
 * Fix: Permanently deleting reviews now works from the Spam view, not only from Trash.
 * Fix: The status filter links no longer accumulate the previously selected status.
 * Fix: Ratings outside the 1 to 5 range no longer raise an error on PHP 8.
-* Tested with WordPress 7.0 and PHP 8.3.
+* Tested with WordPress 7.0 and PHP 7.4 through 8.5.
 
 = 1.0.2 =
 * Tested with WordPress 6.7, Tutor LMS 3.0.0 and PHP 8.3.13.
