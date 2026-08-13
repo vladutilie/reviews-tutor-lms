@@ -1,9 +1,14 @@
 .DS_Store
 phpcs.xml
 phpunit.xml
+phpstan.neon
+.phpunit.result.cache
+/coverage/
 Thumbs.db
 wp-cli.local.yml
 node_modules/
 *.sql
 *.tar.gz
 *.zip
+
+/vendor/

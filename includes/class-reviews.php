@@ -12,11 +12,24 @@ namespace ReviewsTutorLms\Includes;
  * Reviews class to render the table of the reviews.
  *
  * @since 1.0.0
- *
- * @see WP_List_Table
- * @link https://developer.wordpress.org/reference/classes/WP_List_Table
  */
 class Reviews extends \WP_List_Table {
+
+	/**
+	 * Capability required to view and moderate reviews.
+	 *
+	 * @since 1.0.3
+	 */
+	const CAPABILITY = 'manage_tutor_instructor';
+
+	/**
+	 * Review statuses the table knows about.
+	 *
+	 * Used as an allow list for anything coming from the request.
+	 *
+	 * @since 1.0.3
+	 */
+	const STATUSES = array( 'hold', 'approved', 'spam', 'trash' );
 
 	/**
 	 * Current selected review status.
@@ -24,7 +37,7 @@ class Reviews extends \WP_List_Table {
 	 * @since 1.0.0
 	 * @var string $current_review_status_view Current review status.
 	 */
-	protected $current_review_status_view;
+	protected $current_review_status_view = 'all';
 
 	/**
 	 * Inherit data from parent class.
@@ -41,18 +54,32 @@ class Reviews extends \WP_List_Table {
 	}
 
 	/**
+	 * Read the requested review status from the request, restricted to known statuses.
+	 *
+	 * Anything unrecognised falls back to `all` so the value can never reach the
+	 * database as free-form input.
+	 *
+	 * @since 1.0.3
+	 *
+	 * @return string One of the values in self::STATUSES, or `all`.
+	 */
+	protected static function requested_status(): string {
+		if ( ! isset( $_GET['review_status'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return 'all';
+		}
+
+		$status = sanitize_key( wp_unslash( $_GET['review_status'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+		return in_array( $status, self::STATUSES, true ) ? $status : 'all';
+	}
+
+	/**
 	 * Prepares the list of reviews for displaying.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @see sanitize_text_field
-	 * @link https://developer.wordpress.org/reference/functions/sanitize_text_field
-	 *
-	 * @see wp_unslash
-	 * @link https://developer.wordpress.org/reference/functions/wp_unslash
 	 */
 	public function prepare_items() {
-		$this->current_review_status_view = isset( $_GET['review_status'] ) ? sanitize_text_field( wp_unslash( $_GET['review_status'] ) ) : 'all'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$this->current_review_status_view = self::requested_status();
 		$this->process_bulk_action();
 		$reviews = $this->get_reviews();
 
@@ -71,7 +98,7 @@ class Reviews extends \WP_List_Table {
 			array(
 				'total_items' => $total_items,
 				'per_page'    => $per_page,
-				'total_pages' => ceil( $total_items / $per_page ),
+				'total_pages' => (int) ceil( $total_items / $per_page ),
 			)
 		);
 
@@ -82,9 +109,6 @@ class Reviews extends \WP_List_Table {
 	 * Define the list of column names.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @see __
-	 * @link https://developer.wordpress.org/reference/functions/__
 	 */
 	public function get_columns() {
 		return array(
@@ -116,15 +140,6 @@ class Reviews extends \WP_List_Table {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @see sanitize_text_field
-	 * @link https://developer.wordpress.org/reference/functions/sanitize_text_field
-	 *
-	 * @see wp_unslash
-	 * @link https://developer.wordpress.org/reference/functions/wp_unslash
-	 *
-	 * @see esc_sql
-	 * @link https://developer.wordpress.org/reference/functions/esc_sql
-	 *
 	 * @global object $wpdb WordPress database abstraction object.
 	 */
 	protected function get_reviews(): array {
@@ -144,32 +159,25 @@ class Reviews extends \WP_List_Table {
 			JOIN $wpdb->posts p ON c.comment_post_ID = p.ID
 			WHERE c.comment_type = 'tutor_course_rating' AND cm.meta_key = 'tutor_rating'";
 
-		if ( 'all' !== $this->current_review_status_view ) {
+		if ( in_array( $this->current_review_status_view, self::STATUSES, true ) ) {
 			$sql .= $wpdb->prepare( ' AND c.comment_approved = %s', $this->current_review_status_view );
 		}
 
-		$order_qry = ( isset( $_GET['order'] ) ) ? sanitize_text_field( wp_unslash( $_GET['order'] ) ) : 'DESC'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$order_by  = ( isset( $_GET['orderby'] ) ) ? sanitize_text_field( wp_unslash( $_GET['orderby'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$order_qry = isset( $_GET['order'] ) ? sanitize_key( wp_unslash( $_GET['order'] ) ) : 'desc'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$order_by  = isset( $_GET['orderby'] ) ? sanitize_key( wp_unslash( $_GET['orderby'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-		if ( ! empty( $order_by ) ) {
-			$order = 'DESC';
-			if ( 'ASC' === strtoupper( $order_qry ) ) {
-				$order = 'ASC';
-			}
-			switch ( $order_by ) {
-				case 'author':
-					$sql .= ' ORDER BY c.user_id ' . $order;
-					break;
-				case 'rating':
-					$sql .= ' ORDER BY rating ' . $order;
-					break;
-				default:
-					$sql .= ' ORDER BY c.comment_date_gmt DESC';
-					break;
-			}
-		} else {
-			$sql .= ' ORDER BY c.comment_date_gmt DESC';
-		}
+		// Both parts of the ORDER BY clause come from these hard-coded maps, never from the request.
+		$columns = array(
+			'author' => 'c.user_id',
+			'rating' => 'cm.meta_value + 0',
+			'status' => 'c.comment_approved',
+			'date'   => 'c.comment_date_gmt',
+		);
+
+		$column = isset( $columns[ $order_by ] ) ? $columns[ $order_by ] : 'c.comment_date_gmt';
+		$order  = ( 'asc' === $order_qry ) ? 'ASC' : 'DESC';
+
+		$sql .= " ORDER BY $column $order";
 
 		return $wpdb->get_results( $sql, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
@@ -181,40 +189,48 @@ class Reviews extends \WP_List_Table {
 	 *
 	 * @param array  $item Array data of the review.
 	 * @param string $column_name Name of the current column.
-	 *
-	 * @see admin_url
-	 * @link https://developer.wordpress.org/reference/functions/admin_url
-	 *
-	 * @see get_edit_post_link
-	 * @link https://developer.wordpress.org/reference/functions/get_edit_post_link
-	 *
-	 * @see get_option
-	 * @link https://developer.wordpress.org/reference/functions/get_option
-	 *
-	 * @see date_i18n
-	 * @link https://developer.wordpress.org/reference/functions/date_i18n
 	 */
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
 			case 'author':
-				if ( $item['user_id'] ) {
-					$user_profile_url = admin_url( 'user-edit.php?user_id=' . $item['user_id'] . '&wp_http_referer=admin.php?page=' . Main::SUBMENU_SLUG );
+				if ( ! empty( $item['user_id'] ) ) {
+					$user_profile_url = add_query_arg(
+						array(
+							'user_id'         => absint( $item['user_id'] ),
+							'wp_http_referer' => rawurlencode( 'admin.php?page=' . Main::SUBMENU_SLUG ),
+						),
+						admin_url( 'user-edit.php' )
+					);
 
-					return sprintf( '%1$s%2$s%3$s', "<a href='$user_profile_url'>", esc_html( $item['author'] ), '</a>' );
+					return sprintf(
+						'<a href="%1$s">%2$s</a>',
+						esc_url( $user_profile_url ),
+						esc_html( $item['author'] )
+					);
 				}
 
 				return esc_html( $item['author'] );
 			case 'review':
-				return $item['review'];
+				return wp_kses_post( $item['review'] );
 			case 'rating':
-				$stars  = str_repeat( '&#9733;', $item['rating'] );
-				$stars .= str_repeat( '&#9734;', 5 - $item['rating'] );
+				$rating = min( 5, max( 0, absint( $item['rating'] ) ) );
+
+				$stars  = str_repeat( '&#9733;', $rating );
+				$stars .= str_repeat( '&#9734;', 5 - $rating );
 
 				return $stars;
 			case 'course':
 				$course_url = get_edit_post_link( $item['course_id'] );
 
-				return sprintf( '%1$s%2$s%3$s', "<a href='$course_url'>", $item['course_name'], '</a>' );
+				if ( ! $course_url ) {
+					return esc_html( $item['course_name'] );
+				}
+
+				return sprintf(
+					'<a href="%1$s">%2$s</a>',
+					esc_url( $course_url ),
+					esc_html( $item['course_name'] )
+				);
 			case 'date':
 				$date_time_format = implode( ', ', array( get_option( 'date_format' ), get_option( 'time_format' ) ) );
 
@@ -222,7 +238,6 @@ class Reviews extends \WP_List_Table {
 			case 'id':
 			default:
 				break;
-
 		}
 	}
 
@@ -234,7 +249,7 @@ class Reviews extends \WP_List_Table {
 	 * @since 1.0.0
 	 */
 	public function column_cb( $item ) {
-		return sprintf( '<input type="checkbox" name="element[]" value="%s" />', $item['id'] );
+		return sprintf( '<input type="checkbox" name="element[]" value="%d" />', absint( $item['id'] ) );
 	}
 
 	/**
@@ -242,30 +257,12 @@ class Reviews extends \WP_List_Table {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @see admin_url
-	 * @link https://developer.wordpress.org/reference/functions/admin_url
-	 *
-	 * @see _nx_noop
-	 * @link https://developer.wordpress.org/reference/functions/_nx_noop
-	 *
-	 * @see add_query_arg
-	 * @link https://developer.wordpress.org/reference/functions/add_query_arg
-	 *
-	 * @see esc_url
-	 * @link https://developer.wordpress.org/reference/functions/esc_url
-	 *
-	 * @see translate_nooped_plural
-	 * @link https://developer.wordpress.org/reference/functions/translate_nooped_plural
-	 *
-	 * @see number_format_i18n
-	 * @link https://developer.wordpress.org/reference/functions/number_format_i18n
-	 *
 	 * @global object $wpdb WordPress database abstraction object.
 	 */
 	public function get_views() {
 		global $wpdb;
 
-		$link = admin_url( 'admin.php?page=' . Main::SUBMENU_SLUG );
+		$base_link = add_query_arg( 'page', Main::SUBMENU_SLUG, admin_url( 'admin.php' ) );
 
 		$status_links = array();
 		$review_count = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -328,7 +325,7 @@ class Reviews extends \WP_List_Table {
 				$num_reviews->$status = 0;
 			}
 
-			$link = add_query_arg( 'review_status', $status, $link );
+			$link = add_query_arg( 'review_status', $status, $base_link );
 
 			$status_links[ $status ] = array(
 				'url'     => esc_url( $link ),
@@ -364,45 +361,45 @@ class Reviews extends \WP_List_Table {
 	 * @param string $primary Name of the primary column.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @see esc_html
-	 * @link https://developer.wordpress.org/reference/functions/esc_html
-	 *
-	 * @see wp_create_nonce
-	 * @link https://developer.wordpress.org/reference/functions/wp_create_nonce
-	 *
-	 * @see admin_url
-	 * @link https://developer.wordpress.org/reference/functions/admin_url
-	 *
-	 * @see esc_url
-	 * @link https://developer.wordpress.org/reference/functions/esc_url
-	 *
-	 * @see esc_attr__
-	 * @link https://developer.wordpress.org/reference/functions/esc_attr__
-	 *
-	 * @see __
-	 * @link https://developer.wordpress.org/reference/functions/__
-	 *
-	 * @see _x
-	 * @link https://developer.wordpress.org/reference/functions/_x
 	 */
 	protected function handle_row_actions( $item, $column_name, $primary ) {
 		if ( $primary !== $column_name ) {
 			return '';
 		}
 
-		$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( 'approve-review_' . $item['id'] ) );
-		$del_nonce     = esc_html( '_wpnonce=' . wp_create_nonce( 'delete-review_' . $item['id'] ) );
+		$review_id = absint( $item['id'] );
 
-		$url = admin_url( 'admin.php?page=' . Main::SUBMENU_SLUG . '&r=' . $item['id'] );
+		$url = add_query_arg(
+			array(
+				'page' => Main::SUBMENU_SLUG,
+				'r'    => $review_id,
+			),
+			admin_url( 'admin.php' )
+		);
 
-		$approve_url   = esc_url( $url . "&action=approve&$approve_nonce" );
-		$unapprove_url = esc_url( $url . "&action=unapprove&$approve_nonce" );
-		$spam_url      = esc_url( $url . "&action=spam&$del_nonce" );
-		$unspam_url    = esc_url( $url . "&action=unspam&$del_nonce" );
-		$trash_url     = esc_url( $url . "&action=trash&$del_nonce" );
-		$untrash_url   = esc_url( $url . "&action=untrash&$del_nonce" );
-		$delete_url    = esc_url( $url . "&action=delete&$del_nonce" );
+		/**
+		 * Build an action URL carrying the nonce that Main::process_review_actions() expects
+		 * for that action: approving uses its own nonce action, everything else shares the
+		 * destructive one.
+		 *
+		 * @param string $action Action name.
+		 * @return string Escaped URL.
+		 */
+		$action_url = static function ( string $action ) use ( $url, $review_id ): string {
+			$nonce_action = in_array( $action, array( 'approve', 'unapprove' ), true )
+				? 'approve-review_' . $review_id
+				: 'delete-review_' . $review_id;
+
+			return esc_url( wp_nonce_url( add_query_arg( 'action', $action, $url ), $nonce_action ) );
+		};
+
+		$approve_url   = $action_url( 'approve' );
+		$unapprove_url = $action_url( 'unapprove' );
+		$spam_url      = $action_url( 'spam' );
+		$unspam_url    = $action_url( 'unspam' );
+		$trash_url     = $action_url( 'trash' );
+		$untrash_url   = $action_url( 'untrash' );
+		$delete_url    = $action_url( 'delete' );
 
 		// Preorder it: Approve | Spam | Trash.
 		$actions = array(
@@ -491,7 +488,7 @@ class Reviews extends \WP_List_Table {
 				} else {
 					$output .= "<span class='$action'>$link</span>";
 				}
-				$i++;
+				++$i;
 			}
 		}
 		$output .= '</div>';
@@ -505,9 +502,6 @@ class Reviews extends \WP_List_Table {
 	 * @param array $item Array data of the review.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @see esc_attr
-	 * @link https://developer.wordpress.org/reference/functions/esc_attr
 	 */
 	public function single_row( $item ) {
 		$unnapproved_class = 'hold' === $item['status'] ? ' unapproved' : '';
@@ -523,20 +517,9 @@ class Reviews extends \WP_List_Table {
 	 *
 	 * @return array
 	 * @since 1.0.0
-	 *
-	 * @see wp_create_nonce
-	 * @link https://developer.wordpress.org/reference/functions/wp_create_nonce
-	 *
-	 * @see __
-	 * @link https://developer.wordpress.org/reference/functions/__
-	 *
-	 * @see _x
-	 * @link https://developer.wordpress.org/reference/functions/_x
 	 */
 	public function get_bulk_actions(): array {
-		$review_status = $this->current_review_status_view;
-
-		$bulk_nonce = wp_create_nonce( 'bulk-reviews' );
+		$review_status = self::requested_status();
 
 		$actions = array();
 
@@ -572,53 +555,73 @@ class Reviews extends \WP_List_Table {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @see absint
-	 * @link https://developer.wordpress.org/reference/functions/absint
-	 *
-	 * @see check_admin_referer
-	 * @link https://developer.wordpress.org/reference/functions/check_admin_referer
-	 *
 	 * @global object $wpdb WordPress database abstraction object.
 	 */
-	public function process_bulk_action() : void {
+	public function process_bulk_action(): void {
 		$current_action = $this->current_action();
-		if ( $current_action ) {
-			check_admin_referer( 'bulk-reviews' );
 
-			global $wpdb;
+		if ( ! $current_action ) {
+			return;
+		}
 
-			$review_ids   = isset( $_POST['element'] ) ? array_map( 'absint', $_POST['element'] ) : array();
-			$placeholders = implode( ', ', array_fill( 0, count( $review_ids ), '%d' ) );
+		check_admin_referer( 'bulk-reviews' );
 
-			if ( 'delete' === $current_action ) {
-				$delete = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
-					$wpdb->prepare(
-						"DELETE FROM $wpdb->comments
-						WHERE comment_type='tutor_course_rating' AND comment_approved = 'trash' AND comment_ID IN ($placeholders)", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
-						...$review_ids
-					)
-				);
-			} else {
-				if ( in_array( $current_action, array( 'unapprove', 'unspam', 'untrash' ), true ) ) {
-					$new_status = 'hold';
-				} elseif ( 'approve' === $current_action ) {
-					$new_status = 'approved';
-				} elseif ( 'spam' === $current_action ) {
-					$new_status = 'spam';
-				} elseif ( 'trash' === $current_action ) {
-					$new_status = 'trash';
-				}
+		if ( ! current_user_can( self::CAPABILITY ) ) {
+			wp_die(
+				esc_html__( 'You are not allowed to moderate reviews.', 'reviews-tutor-lms' ),
+				403
+			);
+		}
 
-				$update = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
-					$wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
-						"UPDATE $wpdb->comments
-						SET comment_approved = %s
-						WHERE comment_type='tutor_course_rating' AND comment_ID IN ($placeholders)", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-						$new_status,
-						...$review_ids
-					)
-				);
-			}
+		$statuses = array(
+			'unapprove' => 'hold',
+			'unspam'    => 'hold',
+			'untrash'   => 'hold',
+			'approve'   => 'approved',
+			'spam'      => 'spam',
+			'trash'     => 'trash',
+		);
+
+		// Ignore anything that is not one of our own bulk actions.
+		if ( 'delete' !== $current_action && ! isset( $statuses[ $current_action ] ) ) {
+			return;
+		}
+
+		$review_ids = isset( $_POST['element'] ) && is_array( $_POST['element'] )
+			? array_filter( array_map( 'absint', wp_unslash( $_POST['element'] ) ) )
+			: array();
+
+		// An empty selection would produce an invalid `IN ()` clause.
+		if ( ! $review_ids ) {
+			return;
+		}
+
+		global $wpdb;
+
+		$placeholders = implode( ', ', array_fill( 0, count( $review_ids ), '%d' ) );
+
+		if ( 'delete' === $current_action ) {
+			$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+				$wpdb->prepare(
+					"DELETE FROM $wpdb->comments
+					WHERE comment_type='tutor_course_rating' AND comment_approved IN ('trash', 'spam') AND comment_ID IN ($placeholders)", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+					...$review_ids
+				)
+			);
+		} else {
+			$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+				$wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+					"UPDATE $wpdb->comments
+					SET comment_approved = %s
+					WHERE comment_type='tutor_course_rating' AND comment_ID IN ($placeholders)", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					$statuses[ $current_action ],
+					...$review_ids
+				)
+			);
+		}
+
+		foreach ( $review_ids as $review_id ) {
+			clean_comment_cache( $review_id );
 		}
 	}
 }

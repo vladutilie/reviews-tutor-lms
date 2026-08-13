@@ -59,12 +59,6 @@ class Main {
 	 * Define hooks.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @see is_plugin_inactive
-	 * @link https://developer.wordpress.org/reference/functions/is_plugin_inactive
-	 *
-	 * @see add_action
-	 * @link https://developer.wordpress.org/reference/functions/add_action
 	 */
 	protected function init(): void {
 		/**
@@ -84,9 +78,6 @@ class Main {
 	 * Admin notice if Tutor LMS not installed.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @see esc_html__
-	 * @link https://developer.wordpress.org/reference/functions/esc_html__
 	 */
 	public function notice_required_tutor() {
 		?>
@@ -109,12 +100,6 @@ class Main {
 	 * Set up internationalization for the plugin.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @see load_plugin_textdomain
-	 * @link https://developer.wordpress.org/reference/functions/load_plugin_textdomain
-	 *
-	 * @see plugin_basename
-	 * @link https://developer.wordpress.org/reference/functions/plugin_basename
 	 */
 	public function load_text_domain(): void {
 		load_plugin_textdomain( 'reviews-tutor-lms', false, dirname( plugin_basename( __FILE__ ) ) . '/../languages' );
@@ -124,18 +109,6 @@ class Main {
 	 * Add "Reviews" submenu in the Tutor LMS dashboard navigation
 	 *
 	 * @since 1.0.0
-	 *
-	 * @see esc_attr
-	 * @link https://developer.wordpress.org/reference/functions/esc_attr
-	 *
-	 * @see esc_html
-	 * @link https://developer.wordpress.org/reference/functions/esc_html
-	 *
-	 * @see add_submenu_page
-	 * @link https://developer.wordpress.org/reference/functions/add_submenu_page
-	 *
-	 * @see __
-	 * @link https://developer.wordpress.org/reference/functions/__
 	 *
 	 * @global object $wpdb WordPress database abstraction object.
 	 */
@@ -157,14 +130,15 @@ class Main {
 	 * Table of the reviews.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @see esc_html__
-	 * @link https://developer.wordpress.org/reference/functions/esc_html__
-	 *
-	 * @see __
-	 * @link https://developer.wordpress.org/reference/functions/__
 	 */
 	public function review_list() {
+		if ( ! current_user_can( Reviews::CAPABILITY ) ) {
+			wp_die(
+				esc_html__( 'You are not allowed to moderate reviews.', 'reviews-tutor-lms' ),
+				403
+			);
+		}
+
 		$this->process_review_actions();
 
 		$table = new Reviews();
@@ -180,11 +154,8 @@ class Main {
 			}
 		</style>
 		<div class="wrap">
-			<?php
-			// translators: %1$s: h2 opening tag, %2$s: h2 closing tag.
-			printf( esc_html__( '%1$sReviews%2$s', 'reviews-tutor-lms' ), '<h2>', '</h2>' );
-			$table->views();
-			?>
+			<h2><?php esc_html_e( 'Reviews', 'reviews-tutor-lms' ); ?></h2>
+			<?php $table->views(); ?>
 			<form method="post">
 				<?php
 				if ( $table->has_items() ) {
@@ -202,64 +173,79 @@ class Main {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @see wp_verify_nonce
-	 * @link https://developer.wordpress.org/reference/functions/wp_verify_nonce
-	 *
-	 * @see sanitize_text_field
-	 * @link https://developer.wordpress.org/reference/functions/sanitize_text_field
-	 *
-	 * @see wp_unslash
-	 * @link https://developer.wordpress.org/reference/functions/wp_unslash
-	 *
-	 * @see wp_safe_redirect
-	 * @link https://developer.wordpress.org/reference/functions/wp_safe_redirect
-	 *
-	 * @see admin_url
-	 * @link https://developer.wordpress.org/reference/functions/admin_url
-	 *
 	 * @global object $wpdb WordPress database abstraction object.
 	 */
 	protected function process_review_actions() {
 		global $wpdb;
 
-		if ( isset( $_GET['_wpnonce'] ) && isset( $_GET['r'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'approve-review_' . sanitize_text_field( wp_unslash( $_GET['r'] ) ) ) ) {
-			$action    = ( isset( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : '' );
-			$review_id = ( isset( $_GET['r'] ) ? sanitize_text_field( wp_unslash( $_GET['r'] ) ) : '' );
+		if ( ! isset( $_GET['_wpnonce'], $_GET['r'], $_GET['action'] ) ) {
+			return;
+		}
 
-			$data = array();
-			if ( 'approve' === $action ) {
-				$data = array( 'comment_approved' => 'approved' );
-			} elseif ( 'unapprove' === $action ) {
-				$data = array( 'comment_approved' => 'hold' );
-			} else {
+		$nonce     = sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) );
+		$review_id = absint( wp_unslash( $_GET['r'] ) );
+		$action    = sanitize_key( wp_unslash( $_GET['action'] ) );
+
+		if ( ! $review_id ) {
+			return;
+		}
+
+		/*
+		 * Approving is gated behind its own nonce action, every destructive action behind
+		 * another. Both are also gated behind the same capability as the page itself, so a
+		 * leaked nonce alone is not enough to moderate reviews.
+		 */
+		$statuses = array(
+			'approve'   => 'approved',
+			'unapprove' => 'hold',
+		);
+
+		if ( isset( $statuses[ $action ] ) ) {
+			$nonce_action = 'approve-review_' . $review_id;
+		} else {
+			$nonce_action = 'delete-review_' . $review_id;
+
+			$statuses = array(
+				'spam'    => 'spam',
+				'unspam'  => 'hold',
+				'untrash' => 'hold',
+				'trash'   => 'trash',
+			);
+
+			if ( 'delete' !== $action && ! isset( $statuses[ $action ] ) ) {
 				return;
 			}
+		}
 
-			$update = $wpdb->update( $wpdb->comments, $data, array( 'comment_ID' => $review_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		if ( ! wp_verify_nonce( $nonce, $nonce_action ) ) {
+			return;
+		}
 
-			wp_safe_redirect( admin_url( 'admin.php?page=' . self::SUBMENU_SLUG ) );
-		} elseif ( isset( $_GET['_wpnonce'] ) && isset( $_GET['r'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'delete-review_' . sanitize_text_field( wp_unslash( $_GET['r'] ) ) ) ) {
-			$action    = ( isset( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : '' );
-			$review_id = ( isset( $_GET['r'] ) ? sanitize_text_field( wp_unslash( $_GET['r'] ) ) : '' );
+		if ( ! current_user_can( Reviews::CAPABILITY ) ) {
+			wp_die(
+				esc_html__( 'You are not allowed to moderate reviews.', 'reviews-tutor-lms' ),
+				403
+			);
+		}
 
-			$data = array();
-			if ( 'spam' === $action ) {
-				$data = array( 'comment_approved' => 'spam' );
-			} elseif ( 'unspam' === $action || 'untrash' === $action ) {
-				$data = array( 'comment_approved' => 'hold' );
-			} elseif ( 'trash' === $action ) {
-				$data = array( 'comment_approved' => 'trash' );
-			} elseif ( 'delete' === $action ) {
-				$delete = $wpdb->delete( $wpdb->comments, array( 'comment_ID' => $review_id ), array( '%d' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		if ( 'delete' === $action ) {
+			$wpdb->delete( $wpdb->comments, array( 'comment_ID' => $review_id ), array( '%d' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		} else {
+			$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+				$wpdb->comments,
+				array( 'comment_approved' => $statuses[ $action ] ),
+				array( 'comment_ID' => $review_id ),
+				array( '%s' ),
+				array( '%d' )
+			);
+		}
 
-				return wp_safe_redirect( admin_url( 'admin.php?page=' . self::SUBMENU_SLUG ) );
-			} else {
-				return;
-			}
+		clean_comment_cache( $review_id );
 
-			$update = $wpdb->update( $wpdb->comments, $data, array( 'comment_ID' => $review_id ), array( '%s' ), array( '%d' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
-
-			wp_safe_redirect( admin_url( 'admin.php?page=' . self::SUBMENU_SLUG ) );
+		// wp_safe_redirect() returns false when a filter cancels it, which is how the tests
+		// keep the request alive; a real redirect must always stop execution.
+		if ( wp_safe_redirect( add_query_arg( 'page', self::SUBMENU_SLUG, admin_url( 'admin.php' ) ) ) ) {
+			exit;
 		}
 	}
 }

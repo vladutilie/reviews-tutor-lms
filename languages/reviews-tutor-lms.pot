@@ -1,15 +1,15 @@
-# Copyright (C) 2024 Vlad Ilie
+# Copyright (C) 2026 Vlad Ilie
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Reviews for Tutor LMS 1.0.1\n"
+"Project-Id-Version: Reviews for Tutor LMS 1.0.3\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/reviews-tutor-lms\n"
-"POT-Creation-Date: 2024-03-20 06:50:58+00:00\n"
+"POT-Creation-Date: 2026-08-13 19:02:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2026-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en\n"
@@ -25,93 +25,93 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-1: includes/class-reviews.php\n"
 "X-Poedit-SearchPath-2: includes/class-main.php\n"
-"X-Generator: grunt-wp-i18n 1.0.3\n"
+"X-Generator: grunt-wp-i18n 1.0.4\n"
 
-#: includes/class-main.php:98
+#: includes/class-main.php:89
 #. translators: %1$s: code opening tag, %2$s: code closing tag.
 msgid ""
 "Please enable the %1$sTutor LMS%2$s plugin for the %1$sReviews for Tutor "
 "LMS%2$s plugin to work."
 msgstr ""
 
-#: includes/class-main.php:153
+#: includes/class-main.php:126 includes/class-main.php:157
 msgid "Reviews"
 msgstr ""
 
-#: includes/class-main.php:185
-#. translators: %1$s: h2 opening tag, %2$s: h2 closing tag.
-msgid "%1$sReviews%2$s"
+#: includes/class-main.php:137 includes/class-main.php:226
+#: includes/class-reviews.php:571
+msgid "You are not allowed to moderate reviews."
 msgstr ""
 
-#: includes/class-main.php:191
+#: includes/class-main.php:162
 msgid "Search review"
 msgstr ""
 
-#: includes/class-reviews.php:92
+#: includes/class-reviews.php:116
 msgid "Author"
 msgstr ""
 
-#: includes/class-reviews.php:93
+#: includes/class-reviews.php:117
 msgid "Review"
 msgstr ""
 
-#: includes/class-reviews.php:94
+#: includes/class-reviews.php:118
 msgid "Rating"
 msgstr ""
 
-#: includes/class-reviews.php:95
+#: includes/class-reviews.php:119
 msgid "Course"
 msgstr ""
 
-#: includes/class-reviews.php:96
+#: includes/class-reviews.php:120
 msgid "Date"
 msgstr ""
 
-#: includes/class-reviews.php:422
+#: includes/class-reviews.php:419
 msgid "Unapprove this review"
 msgstr ""
 
-#: includes/class-reviews.php:423 includes/class-reviews.php:544
+#: includes/class-reviews.php:420 includes/class-reviews.php:527
 msgid "Unapprove"
 msgstr ""
 
-#: includes/class-reviews.php:429
+#: includes/class-reviews.php:426
 msgid "Approve this review"
 msgstr ""
 
-#: includes/class-reviews.php:430 includes/class-reviews.php:548
+#: includes/class-reviews.php:427 includes/class-reviews.php:531
 msgid "Approve"
 msgstr ""
 
-#: includes/class-reviews.php:438
+#: includes/class-reviews.php:435
 msgid "Mark this review as spam"
 msgstr ""
 
-#: includes/class-reviews.php:446
+#: includes/class-reviews.php:443
 msgid "Restore this review from the spam"
 msgstr ""
 
-#: includes/class-reviews.php:455
+#: includes/class-reviews.php:452
 msgid "Restore this review from the Trash"
 msgstr ""
 
-#: includes/class-reviews.php:456 includes/class-reviews.php:556
+#: includes/class-reviews.php:453 includes/class-reviews.php:539
 msgid "Restore"
 msgstr ""
 
-#: includes/class-reviews.php:464
+#: includes/class-reviews.php:461
 msgid "Delete this review permanently"
 msgstr ""
 
-#: includes/class-reviews.php:465 includes/class-reviews.php:562
+#: includes/class-reviews.php:462 includes/class-reviews.php:545
 msgid "Delete permanently"
 msgstr ""
 
-#: includes/class-reviews.php:471
+#: includes/class-reviews.php:468
 msgid "Move this review to the Trash"
 msgstr ""
 
-#: includes/class-reviews.php:564
+#: includes/class-reviews.php:547
 msgid "Move to Trash"
 msgstr ""
 
@@ -133,7 +133,7 @@ msgstr ""
 msgid "https://vladilie.ro"
 msgstr ""
 
-#: includes/class-reviews.php:288
+#: includes/class-reviews.php:285
 #. translators: %s: Number of reviews.
 msgctxt "reviews"
 msgid "All <span class=\"count\">(%s)</span>"
@@ -141,7 +141,7 @@ msgid_plural "All <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-reviews.php:295
+#: includes/class-reviews.php:292
 #. translators: %s: Number of reviews.
 msgctxt "reviews"
 msgid "Pending <span class=\"count\">(%s)</span>"
@@ -149,7 +149,7 @@ msgid_plural "Pending <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-reviews.php:302
+#: includes/class-reviews.php:299
 #. translators: %s: Number of reviews.
 msgctxt "reviews"
 msgid "Approved <span class=\"count\">(%s)</span>"
@@ -157,7 +157,7 @@ msgid_plural "Approved <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-reviews.php:310
+#: includes/class-reviews.php:307
 #. translators: %s: Number of reviews.
 msgctxt "reviews"
 msgid "Spam <span class=\"count\">(%s)</span>"
@@ -165,7 +165,7 @@ msgid_plural "Spam <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-reviews.php:318
+#: includes/class-reviews.php:315
 #. translators: %s: Number of reviews.
 msgctxt "reviews"
 msgid "Trash <span class=\"count\">(%s)</span>"
@@ -173,23 +173,23 @@ msgid_plural "Trash <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-reviews.php:440
+#: includes/class-reviews.php:437
 #. translators: "Mark as spam" link.
 msgctxt "verb"
 msgid "Spam"
 msgstr ""
 
-#: includes/class-reviews.php:472
+#: includes/class-reviews.php:469
 msgctxt "verb"
 msgid "Trash"
 msgstr ""
 
-#: includes/class-reviews.php:447 includes/class-reviews.php:558
+#: includes/class-reviews.php:444 includes/class-reviews.php:541
 msgctxt "review"
 msgid "Not spam"
 msgstr ""
 
-#: includes/class-reviews.php:552
+#: includes/class-reviews.php:535
 msgctxt "review"
 msgid "Mark as spam"
 msgstr ""

@@ -1,0 +1,46 @@
+<?php
+/**
+ * PHPUnit bootstrap file.
+ *
+ * @package Reviews_Tutor_Lms
+ */
+
+require_once dirname( __DIR__ ) . '/vendor/autoload.php';
+
+$_tests_dir = getenv( 'WP_TESTS_DIR' );
+
+if ( ! $_tests_dir ) {
+	$_tests_dir = rtrim( sys_get_temp_dir(), '/\\' ) . '/wordpress-tests-lib';
+}
+
+/*
+ * Forward the PHPUnit Polyfills location to the WordPress bootstrap. Fall back to the copy
+ * Composer installed here, so the suite runs without any environment set up by hand.
+ */
+$_phpunit_polyfills_path = getenv( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH' );
+if ( false === $_phpunit_polyfills_path ) {
+	$_phpunit_polyfills_path = dirname( __DIR__ ) . '/vendor/yoast/phpunit-polyfills';
+}
+if ( is_dir( $_phpunit_polyfills_path ) ) {
+	define( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH', $_phpunit_polyfills_path );
+}
+
+if ( ! file_exists( "{$_tests_dir}/includes/functions.php" ) ) {
+	echo "Could not find {$_tests_dir}/includes/functions.php, have you run bin/install-wp-tests.sh ?" . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	exit( 1 );
+}
+
+// Give access to tests_add_filter() function.
+require_once "{$_tests_dir}/includes/functions.php";
+
+/**
+ * Manually load the plugin being tested.
+ */
+function _manually_load_plugin() {
+	require dirname( dirname( __FILE__ ) ) . '/reviews-tutor-lms.php';
+}
+
+tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
+
+// Start up the WP testing environment.
+require "{$_tests_dir}/includes/bootstrap.php";
