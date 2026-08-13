@@ -8,4 +8,4 @@ parameters:
 			- bin
 			- tests
 			- vendor
-			- node_modules
+			- node_modules (?)
