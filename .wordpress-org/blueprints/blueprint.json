@@ -3,17 +3,23 @@
   "landingPage": "/wp-admin/admin.php?page=reviews-tutor-lms",
   "preferredVersions": {
     "php": "8.3",
-    "wp": "6.7"
+    "wp": "latest"
   },
   "steps": [
     { "step": "login" },
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "tutor_wizard": "active"
+      }
+    },
     {
       "step": "installPlugin",
       "pluginData": {
         "resource": "wordpress.org/plugins",
         "slug": "tutor"
       },
-      "options": { "activate": false }
+      "options": { "activate": true }
     },
     {
       "step": "installPlugin",
@@ -25,11 +31,7 @@
     },
     {
       "step": "runPHP",
-      "code": "<?php require_once 'wordpress/wp-load.php';  activate_plugin( 'tutor/tutor.php' ); ?>"
-    },
-    {
-      "step": "runPHP",
-      "code": "<?php require_once 'wordpress/wp-load.php'; $post_id = wp_insert_post( array( 'post_author' => 1, 'post_title' => 'My Tutor LMS first course', 'post_content' => 'Hello, this is my first course.', 'post_status' => 'publish', 'post_type' => 'courses', ) ); $reviews = array( array( 'reviewer' => 'John Doe', 'review' => 'Integer quis rutrum purus, vel elementum ligula. Vivamus bibendum purus vitae massa varius, non aliquam urna accumsan.', 'status' => 'approved', ), array( 'reviewer' => 'Jane Doe', 'review' => 'Fusce pharetra orci ac mi feugiat lacinia. Integer ac mi a ligula faucibus pharetra vel vel ligula.', 'status' => 'hold', ), array( 'reviewer' => 'Vlad', 'review' => 'Fusce pharetra orci ac mi feugiat lacinia. Integer ac mi a ligula faucibus pharetra vel vel ligula.', 'status' => 'spam', ), ); foreach ( $reviews as $review ) { wp_insert_comment( array( 'comment_post_ID' => $post_id, 'comment_author' => $review['reviewer'], 'comment_content' => $review['review'], 'comment_agent' => 'TutorLMSPlugin', 'comment_type' => 'tutor_course_rating', 'comment_approved' => $review['status'], 'comment_meta' => array( 'tutor_rating' => rand( 1, 5 ) ), ) ); } ?>"
+      "code": "<?php require_once 'wordpress/wp-load.php'; update_option( 'tutor-new-feature', TUTOR_VERSION ); $post_id = wp_insert_post( array( 'post_author' => 1, 'post_title' => 'My Tutor LMS first course', 'post_content' => 'Hello, this is my first course.', 'post_status' => 'publish', 'post_type' => 'courses', ) ); $reviews = array( array( 'reviewer' => 'John Doe', 'review' => 'Integer quis rutrum purus, vel elementum ligula. Vivamus bibendum purus vitae massa varius, non aliquam urna accumsan.', 'status' => 'approved', ), array( 'reviewer' => 'Jane Doe', 'review' => 'Fusce pharetra orci ac mi feugiat lacinia. Integer ac mi a ligula faucibus pharetra vel vel ligula.', 'status' => 'hold', ), array( 'reviewer' => 'Vlad', 'review' => 'Fusce pharetra orci ac mi feugiat lacinia. Integer ac mi a ligula faucibus pharetra vel vel ligula.', 'status' => 'spam', ), ); foreach ( $reviews as $review ) { wp_insert_comment( array( 'comment_post_ID' => $post_id, 'comment_author' => $review['reviewer'], 'comment_content' => $review['review'], 'comment_agent' => 'TutorLMSPlugin', 'comment_type' => 'tutor_course_rating', 'comment_approved' => $review['status'], 'comment_meta' => array( 'tutor_rating' => rand( 1, 5 ) ), ) ); } ?>"
     }
   ]
 }
