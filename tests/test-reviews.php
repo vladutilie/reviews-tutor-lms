@@ -192,6 +192,83 @@ class Test_Reviews extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Searching matches the review text, the reviewer name and the course title.
+	 */
+	public function test_prepare_items_search_matches_content_author_and_course() {
+		$by_content = $this->create_review( 'approved', array( 'comment_content' => 'A wonderful guitar course.' ) );
+		$by_author  = $this->create_review( 'approved', array( 'comment_author' => 'Guitar Hero' ) );
+		$this->create_review( 'approved', array( 'comment_content' => 'Nothing to see here.' ) );
+
+		$course_id = self::factory()->post->create(
+			array(
+				'post_type'  => 'courses',
+				'post_title' => 'Guitar for beginners',
+			)
+		);
+		$by_course = $this->create_review( 'approved', array( 'comment_post_ID' => $course_id ) );
+
+		$_GET['s']     = 'guitar';
+		$_REQUEST['s'] = 'guitar';
+
+		$this->reviews_table->prepare_items();
+
+		$ids = wp_list_pluck( $this->reviews_table->items, 'id' );
+		sort( $ids );
+
+		$expected = array( (string) $by_content, (string) $by_author, (string) $by_course );
+		sort( $expected );
+
+		$this->assertEquals( $expected, $ids );
+	}
+
+	/**
+	 * Searching is combined with the status filter.
+	 */
+	public function test_prepare_items_search_respects_status() {
+		$approved = $this->create_review( 'approved', array( 'comment_content' => 'Great course' ) );
+		$this->create_review( 'hold', array( 'comment_content' => 'Great course' ) );
+
+		$_GET['review_status'] = 'approved';
+		$_GET['s']             = 'great';
+		$_REQUEST['s']         = 'great';
+
+		$this->reviews_table->prepare_items();
+
+		$ids = wp_list_pluck( $this->reviews_table->items, 'id' );
+
+		$this->assertEquals( array( (string) $approved ), $ids );
+	}
+
+	/**
+	 * LIKE wildcards in the search term are matched literally.
+	 */
+	public function test_prepare_items_search_escapes_wildcards() {
+		$this->create_review( 'approved', array( 'comment_content' => 'Anything at all' ) );
+		$literal = $this->create_review( 'approved', array( 'comment_content' => 'Worth 100% of the price' ) );
+
+		$_REQUEST['s'] = '%';
+
+		$this->reviews_table->prepare_items();
+
+		$ids = wp_list_pluck( $this->reviews_table->items, 'id' );
+
+		$this->assertEquals( array( (string) $literal ), $ids );
+	}
+
+	/**
+	 * A search with no matches returns no rows.
+	 */
+	public function test_prepare_items_search_without_matches() {
+		$this->create_review( 'approved', array( 'comment_content' => 'Great course' ) );
+
+		$_REQUEST['s'] = "nothing' OR 1=1 -- ";
+
+		$this->reviews_table->prepare_items();
+
+		$this->assertCount( 0, $this->reviews_table->items );
+	}
+
+	/**
 	 * prepare_items populates the table.
 	 */
 	public function test_prepare_items() {

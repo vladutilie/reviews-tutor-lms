@@ -63,7 +63,7 @@ class Reviews extends \WP_List_Table {
 	 *
 	 * @return string One of the values in self::STATUSES, or `all`.
 	 */
-	protected static function requested_status(): string {
+	public static function requested_status(): string {
 		if ( ! isset( $_GET['review_status'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return 'all';
 		}
@@ -71,6 +71,21 @@ class Reviews extends \WP_List_Table {
 		$status = sanitize_key( wp_unslash( $_GET['review_status'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		return in_array( $status, self::STATUSES, true ) ? $status : 'all';
+	}
+
+	/**
+	 * Read the search term from the request.
+	 *
+	 * @since 1.0.4
+	 *
+	 * @return string The sanitized search term, or an empty string when there is none.
+	 */
+	public static function requested_search(): string {
+		if ( ! isset( $_REQUEST['s'] ) || ! is_string( $_REQUEST['s'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return '';
+		}
+
+		return trim( sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	}
 
 	/**
@@ -161,6 +176,19 @@ class Reviews extends \WP_List_Table {
 
 		if ( in_array( $this->current_review_status_view, self::STATUSES, true ) ) {
 			$sql .= $wpdb->prepare( ' AND c.comment_approved = %s', $this->current_review_status_view );
+		}
+
+		$search = self::requested_search();
+
+		if ( '' !== $search ) {
+			$like = '%' . $wpdb->esc_like( $search ) . '%';
+
+			$sql .= $wpdb->prepare(
+				' AND ( c.comment_content LIKE %s OR c.comment_author LIKE %s OR p.post_title LIKE %s )',
+				$like,
+				$like,
+				$like
+			);
 		}
 
 		$order_qry = isset( $_GET['order'] ) ? sanitize_key( wp_unslash( $_GET['order'] ) ) : 'desc'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended

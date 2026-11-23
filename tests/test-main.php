@@ -335,5 +335,27 @@ class Test_Main extends WP_UnitTestCase {
 		$this->assertStringContainsString( '<div class="wrap">', $output );
 		$this->assertStringContainsString( '<h2>Reviews</h2>', $output );
 		$this->assertStringContainsString( '<form method="post">', $output );
+		$this->assertStringContainsString( '<form method="get">', $output );
+		$this->assertStringContainsString( 'name="page" value="reviews-tutor-lms"', $output );
+		$this->assertStringContainsString( 'id="reviews-tutor-lms-search-input"', $output );
+	}
+
+	/**
+	 * A search keeps the search box and the current status, and echoes the escaped term.
+	 */
+	public function test_review_list_output_with_search() {
+		$_GET['review_status'] = 'hold';
+		$_GET['s']             = '<b>no match</b>';
+		$_REQUEST['s']         = '<b>no match</b>';
+
+		ob_start();
+		$this->main->review_list();
+		$output = ob_get_clean();
+
+		// The search box stays visible even though nothing matched.
+		$this->assertStringContainsString( 'id="reviews-tutor-lms-search-input"', $output );
+		$this->assertStringContainsString( 'name="review_status" value="hold"', $output );
+		$this->assertStringContainsString( 'Search results for:', $output );
+		$this->assertStringNotContainsString( '<b>no match</b>', $output );
 	}
 }

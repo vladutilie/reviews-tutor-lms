@@ -144,6 +144,9 @@ class Main {
 		$table = new Reviews();
 		$table->prepare_items();
 
+		$review_status = Reviews::requested_status();
+		$search        = Reviews::requested_search();
+
 		?>
 		<style>
 			tr.review.unapproved {
@@ -155,14 +158,33 @@ class Main {
 		</style>
 		<div class="wrap">
 			<h2><?php esc_html_e( 'Reviews', 'reviews-tutor-lms' ); ?></h2>
+			<?php if ( '' !== $search ) : ?>
+				<p class="search-results-for">
+					<?php
+					printf(
+						/* translators: %s: Search query. */
+						esc_html__( 'Search results for: %s', 'reviews-tutor-lms' ),
+						'<strong>' . esc_html( $search ) . '</strong>'
+					);
+					?>
+				</p>
+			<?php endif; ?>
 			<?php $table->views(); ?>
+			<?php
+			/*
+			 * The search runs over GET in its own form, so the search term stays in the URL
+			 * and is kept by the pagination, sorting and bulk action requests that follow.
+			 */
+			?>
+			<form method="get">
+				<input type="hidden" name="page" value="<?php echo esc_attr( self::SUBMENU_SLUG ); ?>" />
+				<?php if ( 'all' !== $review_status ) : ?>
+					<input type="hidden" name="review_status" value="<?php echo esc_attr( $review_status ); ?>" />
+				<?php endif; ?>
+				<?php $table->search_box( __( 'Search reviews', 'reviews-tutor-lms' ), 'reviews-tutor-lms' ); ?>
+			</form>
 			<form method="post">
-				<?php
-				if ( $table->has_items() ) {
-					$table->search_box( __( 'Search review', 'reviews-tutor-lms' ), 'reviews-tutor-lms' );
-				}
-				$table->display();
-				?>
+				<?php $table->display(); ?>
 			</form>
 		</div>
 		<?php
